@@ -38,7 +38,9 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    // 'debug' => env('APP_DEBUG', false),
+    //lo cambio de momento a true para ver los fallos en heroku
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
