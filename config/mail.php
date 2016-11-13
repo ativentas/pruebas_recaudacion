@@ -16,6 +16,7 @@ return [
     |
     */
 
+    'driver' => env('MAIL_DRIVER', 'mailgun'),
     'driver' => env('MAIL_DRIVER', 'smtp'),
 
     /*
@@ -57,7 +58,7 @@ return [
 
     'from' => [
         'address' => 'hello@example.com',
-        'name' => 'Example',
+        'name' => 'PROGRAMA',
     ],
 
     /*
