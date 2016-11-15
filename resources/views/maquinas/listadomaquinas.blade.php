@@ -23,7 +23,7 @@ crossorigin="anonymous">
             <select class="form-control" id="zona" name="zona">
                 <option value="">Todas las zonas</option>
                 @foreach ($zonas as $zona)
-                <option value={{$zona->nombre}}>{{$zona->nombre}}</option>
+                <option value="{{$zona->nombre}}" {{ (Request::input('zona') == $zona->nombre ? "selected":"") }}>{{$zona->nombre}}</option>
                 @endforeach                
             </select>
         </div>
@@ -31,7 +31,7 @@ crossorigin="anonymous">
             <select class="form-control" id="estanco" name="estanco">
                 <option value="">Todas los Estancos</option>
                 @foreach ($estancos as $estanco)
-                <option value={{$estanco->nombre}}>{{$estanco->nombre}}</option>
+                <option value="{{$estanco->nombre}}" {{ (Request::input('estanco') == $estanco->nombre ? "selected":"") }}>{{$estanco->nombre}}</option>
                 @endforeach
             </select>
 
