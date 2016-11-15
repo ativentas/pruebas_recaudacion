@@ -16,6 +16,7 @@ class CreateLineasTable extends Migration
         Schema::create('lineas', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('plantillazona_id');
+            $table->integer('maquina_id');
             $table->string('maquina');
             $table->string('usuario');
             $table->integer('monedas')->unsigned()->default(0);

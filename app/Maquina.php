@@ -10,4 +10,10 @@ class Maquina extends Model
     {
         return $query->where('activa', 1);
     }
+    
+    public function lineas()
+    {
+    	return 	$this->hasMany('App\Linea','maquina_id');
+    }
+	
 }

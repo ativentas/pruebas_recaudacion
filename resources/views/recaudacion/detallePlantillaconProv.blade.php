@@ -177,14 +177,14 @@ crossorigin="anonymous">
             <tfoot>
                 <tr>
                 <td colspan=9></td>
-                <td><label id="lTOTAL">{{ $plantilla['total'] }}</label>
-                <input form="form_guardarLinea" type="hidden" id="TOTALPlantilla" name="TOTALPlantilla" value="{{$plantilla['total']}}" style="width: 4em;" readonly="readonly"></td>
+                <td><label id="lTOTAL">{{ $plantilla['totalprov'] }}</label>
+                <input form="form_guardarLinea" type="hidden" id="TOTALPlantilla" name="TOTALPlantilla" value="{{$plantilla['totalprov']}}" style="width: 4em;" readonly="readonly"></td>
                 <td colspan=2></td>
-                <td><label id="lTOTALI">{{ $plantilla['totalI'] }}</label>
-                <input form="form_guardarLinea" type="hidden" id="TOTALPlantillaI" name="TOTALPlantillaI" value="{{$plantilla['totalI']}}" readonly="readonly"></td>
+                <td><label id="lTOTALI">{{ $plantilla['totalprovI'] }}</label>
+                <input form="form_guardarLinea" type="hidden" id="TOTALPlantillaI" name="TOTALPlantillaI" value="{{$plantilla['totalprovI']}}" readonly="readonly"></td>
                 <td>
-                <label id="ldiferencia">{{ $plantilla['diferencia'] }}</label>
-                <input form="form_guardarLinea" type="hidden" id="diferencia" name="diferencia" value="{{$plantilla['diferencia']}}" style="width: 4em;" readonly="readonly">
+                <label id="ldiferencia">{{ $plantilla['diferenciaprov'] }}</label>
+                <input form="form_guardarLinea" type="hidden" id="diferencia" name="diferencia" value="{{$plantilla['diferenciaprov']}}" style="width: 4em;" readonly="readonly">
                 </td>
                 </tr>
                 

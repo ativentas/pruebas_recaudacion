@@ -92,9 +92,10 @@ $(document).ready(function() {
         var nombre = ($(".maquinas[data-id='"+ id +"']>.nombre").text());
         var zona = ($(".maquinas[data-id='"+ id +"']>.zona").text());
         var estanco = ($(".maquinas[data-id='"+ id +"']>.estanco").text());
-        $('form input:eq(1)').val(nombre);
-        $('form input:eq(2)').val(zona);
-        $('form input:eq(3)').val(estanco);
+        // $('form input:eq(1)').val(1);
+        $('form input:eq(2)').val(nombre);
+        $('form input:eq(3)').val(zona);
+        $('form input:eq(4)').val(estanco);
 
         var data = form.serialize();
         $.post(url, data, function(){
@@ -114,9 +115,10 @@ $(document).ready(function() {
         var nombre = ($(".maquinas[data-id='"+ id +"']>.nombre").text());
         var zona = ($(".maquinas[data-id='"+ id +"']>.zona").text());
         var estanco = ($(".maquinas[data-id='"+ id +"']>.estanco").text());
-        $('form input:eq(1)').val(nombre);
-        $('form input:eq(2)').val(zona);
-        $('form input:eq(3)').val(estanco);
+        // $('form input:eq(1)').val(0);
+        $('form input:eq(2)').val(nombre);
+        $('form input:eq(3)').val(zona);
+        $('form input:eq(4)').val(estanco);
         var data = form.serialize();
         $.post(url, data, function(){
         });

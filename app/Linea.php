@@ -12,5 +12,9 @@ class Linea extends Model
     {
     	return 	$this->belongsTo('App\PlantillaZona','plantillazona_id');
     }
+    public function maquina()
+    {
+    	return 	$this->belongsTo('App\Maquina','maquina_id');
+    }
 
 }

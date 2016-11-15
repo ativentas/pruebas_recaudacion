@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Auth;
-
+use DB;
 use App\Linea;
 use Carbon\Carbon;
 use App\PlantillaZona;
@@ -46,7 +46,8 @@ class RecaudaController extends Controller
 		$fecha = strtotime($fecha);
 		$year = date('Y', $fecha);
 		$semana = date ('W', $fecha);
-
+		$semanaactual = date('W');
+		$yearactual = date ('Y');
 		$zona = $request->input('zona');
 
 		//seleccionar plantillazona correspondiente
@@ -55,12 +56,10 @@ class RecaudaController extends Controller
 			where('year', $year)->
 			where('zona', $zona)->first();
 		
-		// si no existe la plantilla y es la semana actual solicitarla al encargado (por ejemplo por email). Si es una semana futura o pasada, mostrar error
+		// si no existe la plantilla y es la semana actual se crea. Si es una semana futura o pasada, mostrar error
 		
 		if ($plantilla === null) {
 
-			$semanaactual = date('W');
-			$yearactual = date ('Y');
 
 			if (date('w', $fecha) == 1) {
 			    $primerdiasemana = date('d M', $fecha);} // 1 es Lunes
@@ -85,6 +84,7 @@ class RecaudaController extends Controller
 				foreach ($maquinas as $maquina) {
 					$linea = new Linea;
 					$linea->plantillazona_id = $plantilla->id;
+					$linea->maquina_id = $maquina->id;
 					$linea->maquina = $maquina->nombre;
 					$linea->usuario = Auth::user()->name;			
 					$linea->save();		
@@ -115,10 +115,42 @@ class RecaudaController extends Controller
 				return back()->with('info','Revisa la fecha, no se pueden introducir datos de semanas futuras');
 	
 				
-			}			
+			}
+
+			return redirect('detalle/'.$plantilla->id);			
 		}
 
-		//como entonces existe, ir a la plantilla seleccionada
+		//como entonces existe, ir a la plantilla seleccionada. Pero si la plantilla es de la semana actual y está abierta, entonces comprobar si hay máquinas nuevas y añadirlas automáticamente.
+
+		if ($semanaactual == $semana && $yearactual == $year && $plantilla->estado == 0) {
+
+			$maquinas = Maquina::activa()->where('zona', $zona)
+				->whereNotIn('id', function($q) use($plantilla) {
+					$q->select('maquina_id')->from('lineas')
+					->where('plantillazona_id',$plantilla->id);
+				})->get();
+
+			if ($maquinas->count()>0){
+				foreach ($maquinas as $maquina) {
+					$linea = new Linea;
+					$linea->plantillazona_id = $plantilla->id;
+					$linea->maquina_id = $maquina->id;
+					$linea->maquina = $maquina->nombre;
+					$linea->usuario = Auth::user()->name;			
+					$linea->save();		
+				}
+			}
+			$bajas = Linea::where('plantillazona_id',$plantilla->id)->where('total',0)
+				->whereNotIn('maquina_id', function($q) use($zona) {
+					$q->select('id')->from('maquinas')
+					->where('activa',1)->where('zona',$zona);
+				})->delete();
+
+		}
+		//asimismo se borrarán las que ya no estén activas y no tengan introducidas recaudaciones
+
+		//esto falta hacerlo
+
 		return redirect('detalle/'.$plantilla->id);
 	}
 
@@ -172,11 +204,8 @@ class RecaudaController extends Controller
 			$plantilla->totalAnterior = $plantillaAnterior->total;
 			} 
 		
-			$plantilla->totalprov = $request->TOTALPlantilla;
 			$plantilla->total = $request->TOTALPlantilla;
-			$plantilla->totalprovI = $request->TOTALPlantillaI;
 			$plantilla->totalI = $request->TOTALPlantillaI;
-			$plantilla->diferenciaprov = $request->diferencia;
 			$plantilla->diferencia = $request->diferencia;
 			$plantilla->archivado = '1';
 			$plantilla->save();
@@ -217,9 +246,9 @@ class RecaudaController extends Controller
 				$linea->diferencia = $request->$diferencia;
 				$linea->save();
 			}
-			$plantilla->totalprov = $request->TOTALPlantilla;
-			$plantilla->totalprovI = $request->TOTALPlantillaI;
-			$plantilla->diferenciaprov = $request->diferencia;
+			$plantilla->total = $request->TOTALPlantilla;
+			$plantilla->totalI = $request->TOTALPlantillaI;
+			$plantilla->diferencia = $request->diferencia;
 			$plantilla->save();
 
 		}else {
@@ -268,12 +297,12 @@ class RecaudaController extends Controller
 		$linea->verificado = $verificado;
 		$linea->save();
 
-		$totalprov = $request->TOTALPlantilla;
-		$totalprovI = $request->TOTALPlantillaI;
-		$diferenciaprov = $request->diferencia;
-		$plantilla->totalprov = $totalprov;
-		$plantilla->totalprovI = $totalprovI;
-		$plantilla->diferenciaprov = $diferenciaprov;
+		$total = $request->TOTALPlantilla;
+		$totalI = $request->TOTALPlantillaI;
+		$diferencia = $request->diferencia;
+		$plantilla->total = $total;
+		$plantilla->totalI = $totalI;
+		$plantilla->diferencia = $diferencia;
 		$plantilla->save();
 		}
 

@@ -43,7 +43,7 @@ crossorigin="anonymous">
 {{csrf_field()}}        
             <tbody>
             @foreach($plantillas as $plantilla)
-                <tr data-id="{{$plantilla->id}}">
+                <tr data-id="{{$plantilla->id}}" @if ($plantilla->archivado==0) style="color:red;" @endif>
                     <th> {{ $plantilla->semana }} </th>
                     <th> {{ $plantilla->year }} </th>
                     <th> {{ $plantilla->zona }} </th>
@@ -118,8 +118,7 @@ $(document).ready(function() {
         }).done(function(){
             $('#Editar'+id).removeClass('btn-info').addClass('btn-success');
             $('#Editar'+id).text('Ver/Editar');
-            $('#total'+id).text('0');
-
+            $('[data-id='+id+']').attr('style','color:red');
         })
 
     });
