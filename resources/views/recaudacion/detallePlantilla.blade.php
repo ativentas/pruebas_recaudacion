@@ -56,39 +56,39 @@ crossorigin="anonymous">
                     <th scope="row">{{ $i++ }}</th>
                     <td> {{ $linea->maquina }}</td>
                     <td>
-                    <input class="dinero" type="number" min="0" max="999" step="1" tabindex="" name="monedas{{$linea->id}}" pattern="/d*" id="monedas{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedas}} style="width: 3em;" @if($linea->verificado==1) disabled @endif>
+                    <input class="dinero" type="number" min="0" max="999" step="0.1" tabindex="" name="monedas{{$linea->id}}" pattern="[0-9]+([,\.][0-9]+)?" id="monedas{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedas}} style="width: 4em;" @if($linea->verificado==1) disabled @endif>
                     </td>
             <!-- billetes -->
                     <td>
-                    <input class="billetes" type="number" min="0" max="999" step="5" tabindex="" name="bv-{{$linea->id}}" pattern="/d*" id="bv{{$linea->id}}" size="" placeholder="" align="" value={{$linea->bv}} style="width: 4em;" @if($linea->verificado==1) disabled @endif>
+                    <input class="billetes" type="number" min="0" max="999" step="1" tabindex="" name="bv-{{$linea->id}}" pattern="/d*" id="bv{{$linea->id}}" size="" placeholder="" align="" value={{$linea->bv}} style="width: 3em;" @if($linea->verificado==1) disabled @endif>
                     </td>
                     <td>
-                    <input class="billetes" type="number" min="0" max="999" step="10" tabindex="" name="bx-{{$linea->id}}" pattern="/d*" id="bx{{$linea->id}}" size="" placeholder="" align="" value={{$linea->bx}} style="width: 4em;" @if($linea->verificado==1) disabled @endif>
+                    <input class="billetes" type="number" min="0" max="999" step="1" tabindex="" name="bx-{{$linea->id}}" pattern="/d*" id="bx{{$linea->id}}" size="" placeholder="" align="" value={{$linea->bx}} style="width: 3em;" @if($linea->verificado==1) disabled @endif>
                     </td>
                     <td>
-                    <input class="billetes" type="number" min="0" max="999" step="20" tabindex="" name="bxx-{{$linea->id}}" pattern="/d*" id="bxx{{$linea->id}}" size="" placeholder="" align="" value={{$linea->bxx}} style="width: 4em;" @if($linea->verificado==1) disabled @endif>
+                    <input class="billetes" type="number" min="0" max="999" step="1" tabindex="" name="bxx-{{$linea->id}}" pattern="/d*" id="bxx{{$linea->id}}" size="" placeholder="" align="" value={{$linea->bxx}} style="width: 3em;" @if($linea->verificado==1) disabled @endif>
                     </td>
                     <td>
-                    <input class="billetes" type="number" min="0" max="999" step="50" tabindex="" name="bl-{{$linea->id}}" pattern="/d*" id="bl{{$linea->id}}" size="" placeholder="" align="" value={{$linea->bl}} style="width: 4em;" @if($linea->verificado==1) disabled @endif>
+                    <input class="billetes" type="number" min="0" max="999" step="1" tabindex="" name="bl-{{$linea->id}}" pattern="/d*" id="bl{{$linea->id}}" size="" placeholder="" align="" value={{$linea->bl}} style="width: 3em;" @if($linea->verificado==1) disabled @endif>
                     </td>
                     <td>
-                    <input class="billetes" type="number" min="0" max="999" step="100" tabindex="" name="bc-{{$linea->id}}" pattern="/d*" id="bc{{$linea->id}}" size="" placeholder="" align="" value={{$linea->bc}} style="width: 4em;" @if($linea->verificado==1) disabled @endif>
+                    <input class="billetes" type="number" min="0" max="999" step="1" tabindex="" name="bc-{{$linea->id}}" pattern="/d*" id="bc{{$linea->id}}" size="" placeholder="" align="" value={{$linea->bc}} style="width: 3em;" @if($linea->verificado==1) disabled @endif>
                     </td>
                     <td>
-                    <input class="dinero" type="number" min="0" max="9999" step="5" tabindex="" name="billetes{{$linea->id}}" pattern="/d*" id="billetes{{$linea->id}}" size="" placeholder="" align="" value={{$linea->billetes}} style="width: 4em;" disabled readonly="true">
+                    <input class="dinero" type="number" min="0" max="9999" step="5" tabindex="" name="billetes{{$linea->id}}" pattern="/d*" id="billetes{{$linea->id}}" size="" placeholder="" align="" value={{$linea->billetes}} style="width: 3em;" disabled readonly="true">
                     <!-- <input class="dinero" type="number" min="0" max="9999" step="5" tabindex="" name="billetes{{$linea->id}}" pattern="/d*" id="billetes{{$linea->id}}" size="" placeholder="" align="" value={{$linea->billetes}} style="width: 4em;" @if($linea->verificado==1) disabled @endif> -->
                     </td>
-            <!-- fin billetes -->
+            <!-- fin billetes. Abajo total de la suma de monedas y billetes de la linea --> 
                     <td>
                     <label id="ltotal{{$linea->id}}">{{ $linea->total }}</label>
                     <input class="dinerototalR" type="hidden" id="totalR{{$linea->id}}" name="totalR{{$linea->id}}" value={{$linea->total}} >
                     </td>
             <!-- aquí van las recaudaciones que marcan las máquinas -->
                     <td>
-                    <input class="dineroI" type="number" min="0" max="999" step="1" tabindex="" name="monedasI{{$linea->id}}" pattern="/d*" id="monedasI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedasI}} style="width: 3em;" @if($linea->verificado=='1') disabled @endif>
+                    <input class="dineroI" type="number" min="0" max="999" step="0.1" tabindex="" name="monedasI{{$linea->id}}" pattern="/d*" id="monedasI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedasI}} style="width: 4em;" @if($linea->verificado=='1') disabled @endif>
                     </td>
                     <td>
-                    <input class="dineroI" type="number" min="0" max="9999" step="5" tabindex="" name="billetesI{{$linea->id}}" pattern="/d*" id="billetesI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->billetesI}} style="width: 4em;" @if($linea->verificado=='1') disabled @endif>
+                    <input class="dineroI" type="number" min="0" max="9999" step="5" tabindex="" name="billetesI{{$linea->id}}" pattern="/d*" id="billetesI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->billetesI}} style="width: 3em;" @if($linea->verificado=='1') disabled @endif>
                     </td>                    
             <!-- totales por linea y diferencia -->
                     <td>
@@ -114,28 +114,33 @@ crossorigin="anonymous">
             <script>
             $(document).ready(function() {
 
-                $("#monedas{{$linea->id}}").change(function() {   
-                    var m = parseInt($("#monedas{{$linea->id}}").val(), 10);
-                    var b = parseInt($("#billetes{{$linea->id}}").val(), 10);        
+                $("#monedas{{$linea->id}}").change(function() {                              
+                    var m = parseFloat($("#monedas{{$linea->id}}").val());
+                    var b = parseFloat($("#billetes{{$linea->id}}").val());        
                     var sum = m + b;
-                    var mI = parseInt($("#monedasI{{$linea->id}}").val(), 10);
-                    var bI = parseInt($("#billetesI{{$linea->id}}").val(), 10);        
+                    var mI = parseFloat($("#monedasI{{$linea->id}}").val());
+                    var bI = parseFloat($("#billetesI{{$linea->id}}").val());        
                     var sumI = mI + bI;
+                    sumI = sumI.toFixed(1);
                     var dif = sum - sumI;
+                    dif = dif.toFixed(1);
                     $("#ltotal{{$linea->id}}").text(sum);
                     $("#totalR{{$linea->id}}").val(sum);
                     $("#ldif{{$linea->id}}").text(dif);
                     $("#diferencia{{$linea->id}}").val(dif);
                 });
-
+        // Cuando cambia el total de una linea de billetes.OK
                 $("#billetes{{$linea->id}}").change(function() {   
-                    var m = parseInt($("#monedas{{$linea->id}}").val(), 10);
-                    var b = parseInt($("#billetes{{$linea->id}}").val(), 10);        
+                    var m = parseFloat($("#monedas{{$linea->id}}").val());
+                    var b = parseFloat($("#billetes{{$linea->id}}").val());     
                     var sum = m + b;
-                    var mI = parseInt($("#monedasI{{$linea->id}}").val(), 10);
-                    var bI = parseInt($("#billetesI{{$linea->id}}").val(), 10);        
+                    sum = sum.toFixed(1);
+                    var mI = parseFloat($("#monedasI{{$linea->id}}").val());
+                    var bI = parseFloat($("#billetesI{{$linea->id}}").val())       
                     var sumI = mI + bI;
+                    sumI = sumI.toFixed(1)
                     var dif = sum - sumI;
+                    dif = dif.toFixed(1);
                     $("#ltotal{{$linea->id}}").text(sum);
                     $("#totalR{{$linea->id}}").val(sum);
                     $("#ldif{{$linea->id}}").text(dif);
@@ -143,13 +148,15 @@ crossorigin="anonymous">
                 });                
 
                 $("#monedasI{{$linea->id}}").change(function() {   
-                    var mI = parseInt($("#monedasI{{$linea->id}}").val(), 10);
-                    var bI = parseInt($("#billetesI{{$linea->id}}").val(), 10);        
-                    var sumI = mI + bI;
-                    var m = parseInt($("#monedas{{$linea->id}}").val(), 10);
-                    var b = parseInt($("#billetes{{$linea->id}}").val(), 10);        
+                    var mI = parseFloat($("#monedasI{{$linea->id}}").val());
+                    var bI = parseInt($("#billetesI{{$linea->id}}").val());        
+                    var sumI = parseFloat(mI + bI);
+                    var m = parseFloat($("#monedas{{$linea->id}}").val());
+                    var b = parseInt($("#billetes{{$linea->id}}").val());        
                     var sum = m + b;
+                    sum = sum.toFixed(1);
                     var dif = sum - sumI;
+                    dif = dif.toFixed(1);
                     $("#ltotalI{{$linea->id}}").text(sumI);
                     $("#totalI{{$linea->id}}").val(sumI);
                     $("#ldif{{$linea->id}}").text(dif);
@@ -157,13 +164,16 @@ crossorigin="anonymous">
                 });
 
                 $("#billetesI{{$linea->id}}").change(function() {   
-                    var mI = parseInt($("#monedasI{{$linea->id}}").val(), 10);
-                    var bI = parseInt($("#billetesI{{$linea->id}}").val(), 10);        
-                    var sumI = mI + bI;
-                    var m = parseInt($("#monedas{{$linea->id}}").val(), 10);
-                    var b = parseInt($("#billetes{{$linea->id}}").val(), 10);        
+
+                    var mI = parseFloat($("#monedasI{{$linea->id}}").val());
+                    var bI = parseFloat($("#billetesI{{$linea->id}}").val());        
+                    var sumI = mI + bI;   
+                    var m = parseFloat($("#monedas{{$linea->id}}").val());
+                    var b = parseFloat($("#billetes{{$linea->id}}").val());        
                     var sum = m + b;
+                    sum = sum.toFixed(1);
                     var dif = sum - sumI;
+                    dif = dif.toFixed(1);
                     $("#ltotalI{{$linea->id}}").text(sumI);
                     $("#totalI{{$linea->id}}").val(sumI);
                     $("#ldif{{$linea->id}}").text(dif);
@@ -249,7 +259,7 @@ $(document).ready(function() {
         var data = form.serialize();
         $.post(url, data, function(){
         });
-        $(location).attr("href", '/control');
+        // $(location).attr("href", '/control');
     });
 
     $('.btn-completar').click(function(e){
@@ -306,7 +316,7 @@ $(document).ready(function() {
         $(this).hide();
         $(this).prev().show(); 
     });
-
+//cuando cambian las monedas
     $('.dinero').change(function(){
         var sum = 0;
         $("input[name^='totalR']").each(function() {
@@ -314,12 +324,12 @@ $(document).ready(function() {
         // add only if the value is number
         if(!isNaN(value) && value.length != 0) {
             sum += parseFloat(value);}
-        });        
-
+        });
+        sum = sum.toFixed(1);        
         $('#TOTALPlantilla').val(sum);
         $('#lTOTAL').text(sum);
         var TOTALI = $('#TOTALPlantillaI').val();
-        var dif = sum - TOTALI;
+        var dif = parseFloat(sum - TOTALI).toFixed(1);
         $('#ldiferencia').text(dif);
         $('#diferencia').val(dif);
 
@@ -334,10 +344,11 @@ $(document).ready(function() {
                 sum += parseFloat(value);
             }
         });
+        sum = sum.toFixed(1);
         $('#TOTALPlantillaI').val(sum);
         $('#lTOTALI').text(sum);
-        var TOTALR = $('#TOTALPlantilla').val();
-        var dif = TOTALR - sum;
+        var TOTALR = parseFloat($('#TOTALPlantilla').val());
+        var dif = parseFloat(TOTALR - sum).toFixed(1);
         $('#ldiferencia').text(dif);
         $('#diferencia').val(dif);
 
@@ -348,12 +359,23 @@ $(document).ready(function() {
         var id = fila.data('id');
         var sum = 0;
         var termina = '-'+id;
-        $('input[name$='+termina+']').each(function(){
-            var value =$(this).val();
-            if(!isNaN(value) && value.length !=0) {
-                sum += parseFloat(value);
-            }
-        });
+
+        var valuebv = $('input[name=bv'+termina+']').val()*5;
+        var valuebx = $('input[name=bx'+termina+']').val()*10;
+        var valuebxx = $('input[name=bxx'+termina+']').val()*20;
+        var valuebl = $('input[name=bl'+termina+']').val()*50;
+        var valuebc = $('input[name=bc'+termina+']').val()*100;
+        
+        sum = valuebv + valuebx + valuebxx + valuebl + valuebc;
+        sum = parseInt(sum);
+
+        // $('input[name$='+termina+']').each(function(){
+        //     var value =$(this).val();
+        //     if(!isNaN(value) && value.length !=0) {
+        //         sum += parseFloat(value);
+        //     }
+        // });
+
         $('#billetes'+id).val(sum).change();
 
     });

@@ -21,13 +21,10 @@ class CreatePlantillazonasTable extends Migration
             $table->boolean('extra')->default(0);
             $table->string('primerdia');
             $table->string('ultimodia');
-            $table->integer('totalprov')->unsigned()->default(0);
-            $table->integer('totalprovI')->unsigned()->default(0);
-            $table->integer('total')->unsigned()->default(0);
-            $table->integer('totalI')->unsigned()->default(0);
-            $table->integer('totalAnterior')->unsigned()->default(0);
-            $table->integer('diferencia')->default(0);
-            $table->integer('diferenciaprov')->default(0);
+            $table->decimal('total',5,1)->unsigned()->default(0);
+            $table->decimal('totalI',5,1)->unsigned()->default(0);
+            $table->decimal('totalAnterior',5,1)->unsigned()->default(0);
+            $table->decimal('diferencia',5,1)->default(0);
             $table->boolean('archivado')->default(0);
             $table->nullableTimestamps();
 

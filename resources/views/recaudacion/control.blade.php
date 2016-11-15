@@ -49,9 +49,9 @@ crossorigin="anonymous">
                     <th> {{ $plantilla->zona }} </th>
                     <td> {{ $plantilla->primerdia }} </td>
                     <td> {{ $plantilla->ultimodia }} </td>
-                    <td id="total{{$plantilla->id}}"> {{ number_format($plantilla->total)}} </td>
+                    <td id="total{{$plantilla->id}}"> {{ number_format($plantilla->total,1,',','.')}} </td>
                     @if (Auth::user()->isAdmin())
-                    <td> {{ number_format($plantilla->totalAnterior)}} </td>
+                    <td> {{ number_format($plantilla->totalAnterior,1,',','.')}} </td>
                     <td> {{ $plantilla->diferencia}}</td>
                     @endif
             <!-- boton Editar -->
