@@ -10,6 +10,7 @@ use App\Maquina;
 use App\Estanco;
 
 
+
 class MaquinaController extends Controller
 {
     /**
@@ -26,9 +27,16 @@ class MaquinaController extends Controller
 
     public function index()
     {
-        $maquinas = Maquina::all();
-        // dd($maquinas);
-        return view('maquinas.listadomaquinas', compact('maquinas'));
+        $query = Maquina::orderBy('zona')->orderBy('nombre');
+        $query = \Request::has('zona') ? $query->where('zona',\Request::input('zona')) : $query;
+        $query = \Request::has('estanco') ? $query->where('estanco',\Request::input('estanco')) : $query;
+
+        $maquinas = $query->get();        
+
+        $zonas = Zona::all();
+        $estancos = Estanco::all();
+        
+        return view('maquinas.listadomaquinas', compact('maquinas','zonas','estancos'));
     }
 
     /**

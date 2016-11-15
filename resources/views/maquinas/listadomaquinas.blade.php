@@ -16,7 +16,34 @@ crossorigin="anonymous">
             <li class="active"><a href="{{ url('maquinas') }}">Listado</a></li>
             <li><a href="{{ url('maquinas/create') }}">Nueva Maquina</a></li>
         </ol>
-        </div>           
+        </div> 
+<form method="get" action="{{url('maquinas')}}" class="form-inline">
+                {{ csrf_field() }}
+        <div class="form-group">
+            <select class="form-control" id="zona" name="zona">
+                <option value="">Todas las zonas</option>
+                @foreach ($zonas as $zona)
+                <option value={{$zona->nombre}}>{{$zona->nombre}}</option>
+                @endforeach                
+            </select>
+        </div>
+        <div class="form-group">
+            <select class="form-control" id="estanco" name="estanco">
+                <option value="">Todas los Estancos</option>
+                @foreach ($estancos as $estanco)
+                <option value={{$estanco->nombre}}>{{$estanco->nombre}}</option>
+                @endforeach
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Filtrar</button>
+        </div>
+        </form>
+
+
+
     </div>
 
     <div class="panel-body">
