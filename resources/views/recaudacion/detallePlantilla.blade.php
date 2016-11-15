@@ -75,7 +75,7 @@ crossorigin="anonymous">
                     <input class="billetes" type="number" min="0" max="999" step="1" tabindex="" name="bc-{{$linea->id}}" pattern="/d*" id="bc{{$linea->id}}" size="" placeholder="" align="" value={{$linea->bc}} style="width: 3em;" @if($linea->verificado==1) disabled @endif>
                     </td>
                     <td>
-                    <input class="dinero" type="number" min="0" max="9999" step="5" tabindex="" name="billetes{{$linea->id}}" pattern="/d*" id="billetes{{$linea->id}}" size="" placeholder="" align="" value={{$linea->billetes}} style="width: 3em;" disabled readonly="true">
+                    <input class="dinero" type="number" min="0" max="9999" step="5" tabindex="" name="billetes{{$linea->id}}" pattern="/d*" id="billetes{{$linea->id}}" size="" placeholder="" align="" value={{$linea->billetes}} style="width: 4em;" disabled readonly="true">
                     <!-- <input class="dinero" type="number" min="0" max="9999" step="5" tabindex="" name="billetes{{$linea->id}}" pattern="/d*" id="billetes{{$linea->id}}" size="" placeholder="" align="" value={{$linea->billetes}} style="width: 4em;" @if($linea->verificado==1) disabled @endif> -->
                     </td>
             <!-- fin billetes. Abajo total de la suma de monedas y billetes de la linea --> 
@@ -88,7 +88,7 @@ crossorigin="anonymous">
                     <input class="dineroI" type="number" min="0" max="999" step="0.1" tabindex="" name="monedasI{{$linea->id}}" pattern="/d*" id="monedasI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedasI}} style="width: 4em;" @if($linea->verificado=='1') disabled @endif>
                     </td>
                     <td>
-                    <input class="dineroI" type="number" min="0" max="9999" step="5" tabindex="" name="billetesI{{$linea->id}}" pattern="/d*" id="billetesI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->billetesI}} style="width: 3em;" @if($linea->verificado=='1') disabled @endif>
+                    <input class="dineroI" type="number" min="0" max="9999" step="5" tabindex="" name="billetesI{{$linea->id}}" pattern="/d*" id="billetesI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->billetesI}} style="width: 4em;" @if($linea->verificado=='1') disabled @endif>
                     </td>                    
             <!-- totales por linea y diferencia -->
                     <td>

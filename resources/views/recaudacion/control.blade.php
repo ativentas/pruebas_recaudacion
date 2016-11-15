@@ -52,7 +52,7 @@ crossorigin="anonymous">
                     <td id="total{{$plantilla->id}}"> {{ number_format($plantilla->total,1,',','.')}} </td>
                     @if (Auth::user()->isAdmin())
                     <td> {{ number_format($plantilla->totalAnterior,1,',','.')}} </td>
-                    <td> {{ $plantilla->diferencia}}</td>
+                    <td> {{ number_format($plantilla->diferencia,1,',','.')}}</td>
                     @endif
             <!-- boton Editar -->
                     <td>
