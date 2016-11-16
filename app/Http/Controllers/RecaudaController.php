@@ -80,8 +80,9 @@ class RecaudaController extends Controller
 				$plantilla->save();
 				
 				$maquinas = Maquina::activa()->where('zona', $zona)->get();
-
+				dd($maquinas);
 				foreach ($maquinas as $maquina) {
+					dd($maquina->id);
 					$linea = new Linea;
 					$linea->plantillazona_id = $plantilla->id;
 					$linea->maquina_id = $maquina->id;
@@ -107,6 +108,7 @@ class RecaudaController extends Controller
 					$linea = new Linea;
 					$linea->plantillazona_id = $plantilla->id;
 					$linea->maquina = $maquina->nombre;
+					$linea->maquina_id = $maquina->id;
 					$linea->usuario = Auth::user()->name;			
 					$linea->save();
 				}
