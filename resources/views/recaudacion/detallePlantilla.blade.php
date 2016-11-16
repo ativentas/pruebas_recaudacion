@@ -227,7 +227,7 @@ $(document).ready(function() {
 
         var fila = $(this).parents('tr');
         var id = fila.data('id');
-        $('#verificado'+id).val(2);
+        $('#verificado'+id).val(1);
         var form = $('#form_guardar');
         var url = form.attr('action').replace(':LINEA_ID', id);
         $('#billetes'+id).prop('disabled', false);
