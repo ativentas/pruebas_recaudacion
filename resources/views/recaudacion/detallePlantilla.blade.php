@@ -25,7 +25,7 @@ crossorigin="anonymous">
     <div class="panel-body">
         <div class="row">
 
-<form id="form_guardarLinea" action="{{route('guardarLinea',array('linea'=>':LINEA_ID','plantilla'=>$plantilla['id']))}}" method="POST"> 
+<form id="form_guardar" action="{{route('guardar',array('linea'=>':LINEA_ID','plantilla'=>$plantilla['id']))}}" method="POST"> 
 {{csrf_field()}} 
         <table class="table table-striped">
             <thead>
@@ -56,7 +56,7 @@ crossorigin="anonymous">
                     <th scope="row">{{ $i++ }}</th>
                     <td> {{ $linea->maquina }}</td>
                     <td>
-                    <input class="dinero" type="number" min="0" max="999" step="0.1" tabindex="" name="monedas{{$linea->id}}" pattern="[0-9]+([,\.][0-9]+)?" id="monedas{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedas}} style="width: 4em;" @if($linea->verificado==1) disabled @endif>
+                    <input class="dinero" type="number" min="0" max="999" step="0.01" tabindex="" name="monedas{{$linea->id}}" pattern="[0-9]+([,\.][0-9]+)?" id="monedas{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedas}} style="width: 4em;" @if($linea->verificado==1) disabled @endif>
                     </td>
             <!-- billetes -->
                     <td>
@@ -85,7 +85,7 @@ crossorigin="anonymous">
                     </td>
             <!-- aquí van las recaudaciones que marcan las máquinas -->
                     <td>
-                    <input class="dineroI" type="number" min="0" max="999" step="0.1" tabindex="" name="monedasI{{$linea->id}}" pattern="/d*" id="monedasI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedasI}} style="width: 4em;" @if($linea->verificado=='1') disabled @endif>
+                    <input class="dineroI" type="number" min="0" max="999" step="0.01" tabindex="" name="monedasI{{$linea->id}}" pattern="/d*" id="monedasI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedasI}} style="width: 4em;" @if($linea->verificado=='1') disabled @endif>
                     </td>
                     <td>
                     <input class="dineroI" type="number" min="0" max="9999" step="5" tabindex="" name="billetesI{{$linea->id}}" pattern="/d*" id="billetesI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->billetesI}} style="width: 4em;" @if($linea->verificado=='1') disabled @endif>
@@ -121,9 +121,9 @@ crossorigin="anonymous">
                     var mI = parseFloat($("#monedasI{{$linea->id}}").val());
                     var bI = parseFloat($("#billetesI{{$linea->id}}").val());        
                     var sumI = mI + bI;
-                    sumI = sumI.toFixed(1);
+                    sumI = sumI.toFixed(2);
                     var dif = sum - sumI;
-                    dif = dif.toFixed(1);
+                    dif = dif.toFixed(2);
                     $("#ltotal{{$linea->id}}").text(sum);
                     $("#totalR{{$linea->id}}").val(sum);
                     $("#ldif{{$linea->id}}").text(dif);
@@ -134,13 +134,13 @@ crossorigin="anonymous">
                     var m = parseFloat($("#monedas{{$linea->id}}").val());
                     var b = parseFloat($("#billetes{{$linea->id}}").val());     
                     var sum = m + b;
-                    sum = sum.toFixed(1);
+                    sum = sum.toFixed(2);
                     var mI = parseFloat($("#monedasI{{$linea->id}}").val());
                     var bI = parseFloat($("#billetesI{{$linea->id}}").val())       
                     var sumI = mI + bI;
-                    sumI = sumI.toFixed(1)
+                    sumI = sumI.toFixed(2)
                     var dif = sum - sumI;
-                    dif = dif.toFixed(1);
+                    dif = dif.toFixed(2);
                     $("#ltotal{{$linea->id}}").text(sum);
                     $("#totalR{{$linea->id}}").val(sum);
                     $("#ldif{{$linea->id}}").text(dif);
@@ -154,9 +154,9 @@ crossorigin="anonymous">
                     var m = parseFloat($("#monedas{{$linea->id}}").val());
                     var b = parseInt($("#billetes{{$linea->id}}").val());        
                     var sum = m + b;
-                    sum = sum.toFixed(1);
+                    sum = sum.toFixed(2);
                     var dif = sum - sumI;
-                    dif = dif.toFixed(1);
+                    dif = dif.toFixed(2);
                     $("#ltotalI{{$linea->id}}").text(sumI);
                     $("#totalI{{$linea->id}}").val(sumI);
                     $("#ldif{{$linea->id}}").text(dif);
@@ -171,9 +171,9 @@ crossorigin="anonymous">
                     var m = parseFloat($("#monedas{{$linea->id}}").val());
                     var b = parseFloat($("#billetes{{$linea->id}}").val());        
                     var sum = m + b;
-                    sum = sum.toFixed(1);
+                    sum = sum.toFixed(2);
                     var dif = sum - sumI;
-                    dif = dif.toFixed(1);
+                    dif = dif.toFixed(2);
                     $("#ltotalI{{$linea->id}}").text(sumI);
                     $("#totalI{{$linea->id}}").val(sumI);
                     $("#ldif{{$linea->id}}").text(dif);
@@ -188,13 +188,13 @@ crossorigin="anonymous">
                 <tr>
                 <td colspan=9></td>
                 <td><label id="lTOTAL">{{ $plantilla['total'] }}</label>
-                <input form="form_guardarLinea" type="hidden" id="TOTALPlantilla" name="TOTALPlantilla" value="{{$plantilla['total']}}" style="width: 4em;" readonly="readonly"></td>
+                <input form="form_guardar" type="hidden" id="TOTALPlantilla" name="TOTALPlantilla" value="{{$plantilla['total']}}" style="width: 4em;" readonly="readonly"></td>
                 <td colspan=2></td>
                 <td><label id="lTOTALI">{{ $plantilla['totalI'] }}</label>
-                <input form="form_guardarLinea" type="hidden" id="TOTALPlantillaI" name="TOTALPlantillaI" value="{{$plantilla['totalI']}}" readonly="readonly"></td>
+                <input form="form_guardar" type="hidden" id="TOTALPlantillaI" name="TOTALPlantillaI" value="{{$plantilla['totalI']}}" readonly="readonly"></td>
                 <td>
                 <label id="ldiferencia">{{ $plantilla['diferencia'] }}</label>
-                <input form="form_guardarLinea" type="hidden" id="diferencia" name="diferencia" value="{{$plantilla['diferencia']}}" style="width: 4em;" readonly="readonly">
+                <input form="form_guardar" type="hidden" id="diferencia" name="diferencia" value="{{$plantilla['diferencia']}}" style="width: 4em;" readonly="readonly">
                 </td>
                 </tr>
                 
@@ -227,8 +227,8 @@ $(document).ready(function() {
 
         var fila = $(this).parents('tr');
         var id = fila.data('id');
-        $('#verificado'+id).val(1);
-        var form = $('#form_guardarLinea');
+        $('#verificado'+id).val(2);
+        var form = $('#form_guardar');
         var url = form.attr('action').replace(':LINEA_ID', id);
         $('#billetes'+id).prop('disabled', false);
         var data = form.serialize();
@@ -251,13 +251,17 @@ $(document).ready(function() {
 
     $('.btn-guardar').click(function(e){
         e.preventDefault();
-        var form = $('#form_guardarLinea');
+        var form = $('#form_guardar');
         var url = form.attr('action').replace(':LINEA_ID','Algunas'); 
         $('.dinero').prop('disabled', false);//para que envie todos los datos
         $('.billetes').prop('disabled', false);//para que envie todos los datos
         $('.dineroI').prop('disabled', false);//para que envie todos los datos
         var data = form.serialize();
         $.post(url, data, function(){
+        }).done(function(){
+            alert('cambios guardados');
+            $(location).attr("href", '/detalle/{{$plantilla->id}}');
+
         });
         // $(location).attr("href", '/control');
     });
@@ -271,7 +275,7 @@ $(document).ready(function() {
         $('.btn-validar').hide();
         $('.btn-modificar').hide();
         $('.btn-guardar').hide();
-        var form = $('#form_guardarLinea');
+        var form = $('#form_guardar');
         var url = form.attr('action').replace(':LINEA_ID','Todas'); 
         $('.dinero').prop('disabled', false);//para que envie todos los datos 
         $('.billetes').prop('disabled', false);//para que envie todos los datos 
@@ -306,7 +310,7 @@ $(document).ready(function() {
         $('#billetesI'+id).prop('disabled', false);
         $('#monedasI'+id).prop('disabled', false);
         $('#verificado'+id).val(0);
-        var form = $('#form_guardarLinea');
+        var form = $('#form_guardar');
         var url = form.attr('action').replace(':LINEA_ID', id);
 
         var data = form.serialize();       
@@ -316,7 +320,7 @@ $(document).ready(function() {
         $(this).hide();
         $(this).prev().show(); 
     });
-//cuando cambian las monedas
+//cuando se introducen los datos de las monedas
     $('.dinero').change(function(){
         var sum = 0;
         $("input[name^='totalR']").each(function() {
@@ -325,16 +329,16 @@ $(document).ready(function() {
         if(!isNaN(value) && value.length != 0) {
             sum += parseFloat(value);}
         });
-        sum = sum.toFixed(1);        
+        sum = sum.toFixed(2);        
         $('#TOTALPlantilla').val(sum);
         $('#lTOTAL').text(sum);
         var TOTALI = $('#TOTALPlantillaI').val();
-        var dif = parseFloat(sum - TOTALI).toFixed(1);
+        var dif = parseFloat(sum - TOTALI).toFixed(2);
         $('#ldiferencia').text(dif);
         $('#diferencia').val(dif);
 
     });
-
+//cuando se introducen los datos de la lectura
     $('.dineroI').change(function(){
         var sum = 0;
         $("input[name^='totalI']").each(function() {
@@ -344,16 +348,16 @@ $(document).ready(function() {
                 sum += parseFloat(value);
             }
         });
-        sum = sum.toFixed(1);
+        sum = sum.toFixed(2);
         $('#TOTALPlantillaI').val(sum);
         $('#lTOTALI').text(sum);
         var TOTALR = parseFloat($('#TOTALPlantilla').val());
-        var dif = parseFloat(TOTALR - sum).toFixed(1);
+        var dif = parseFloat(TOTALR - sum).toFixed(2);
         $('#ldiferencia').text(dif);
         $('#diferencia').val(dif);
 
     });
-
+//cuando se introducen los billetes
     $('.billetes').change(function(){
         var fila = $(this).parents('tr');
         var id = fila.data('id');

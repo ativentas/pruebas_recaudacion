@@ -22,15 +22,15 @@ Route::get('/seleccionar', 'HomeController@indexUsers')->middleware('auth');
 
 Route::post('/recaudar', 'RecaudaController@prepara');
 Route::post('/validar/{id}/{p}', [
-	'uses' => 'RecaudaController@guardarLinea',
-	'as' => 'guardarLinea',
+	'uses' => 'RecaudaController@guardar',
+	'as' => 'guardar',
 	'middleware' => ['auth']
 	]);
-Route::post('/validartodo/{id}', [
-	'uses' => 'RecaudaController@completarPlantilla',
-	'as' => 'completarPlantilla',
-	'middleware' => ['auth']
-	]);
+// Route::post('/validartodo/{id}', [
+// 	'uses' => 'RecaudaController@completarPlantilla',
+// 	'as' => 'completarPlantilla',
+// 	'middleware' => ['auth']
+// 	]);
 
 Route::get('/detalle/{id}',[
 	'uses'=>'RecaudaController@detallePlantilla',
@@ -43,11 +43,11 @@ Route::post('/modificarPlantilla/{id}/{a}', [
 	'as' => 'modificarPlantilla',
 	'middleware' => ['auth']
 	]);
-Route::post('/totalPlantilla/{id}/{t}', [
-	'uses' => 'RecaudaController@guardarTotalPlantilla',
-	'as' => 'totalPlantilla',
-	'middleware' => ['auth']
-	]);
+// Route::post('/totalPlantilla/{id}/{t}', [
+// 	'uses' => 'RecaudaController@guardarTotalPlantilla',
+// 	'as' => 'totalPlantilla',
+// 	'middleware' => ['auth']
+// 	]);
 
 //CRUD
 Route::resource('maquinas', 'MaquinaController');

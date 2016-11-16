@@ -154,15 +154,15 @@ class RecaudaController extends Controller
 		return redirect('detalle/'.$plantilla->id);
 	}
 
-
     /**
      * Guarda datos de linea/s en la Base de Datos
      */
-    public function guardarLinea(Request $request, $linea_id, $plantilla_id) {
+    public function guardar(Request $request, $linea_id, $plantilla_id) {
 		$plantilla = PlantillaZona::where('id',$plantilla_id)->first();
+	
+	//Completar la plantilla
 		if($linea_id=='Todas'){
-
-		$lineas = Linea::where('plantillazona_id',$plantilla_id)->get();
+			$lineas = Linea::where('plantillazona_id',$plantilla_id)->get();
 			foreach ($lineas as $linea) {
 				$monedas = 'monedas'.$linea->id;
 				$linea->monedas = $request->$monedas;
@@ -209,7 +209,7 @@ class RecaudaController extends Controller
 			$plantilla->diferencia = $request->diferencia;
 			$plantilla->archivado = '1';
 			$plantilla->save();
-
+	//Guardar cambios
 		}elseif ($linea_id == 'Algunas') {
 
 			$lineas = Linea::where('plantillazona_id',$plantilla_id)->where('verificado',0)->get();
@@ -251,6 +251,7 @@ class RecaudaController extends Controller
 			$plantilla->diferencia = $request->diferencia;
 			$plantilla->save();
 
+	//Validar una linea
 		}else {
 
 		$monedas = 'monedas'.$linea_id;
