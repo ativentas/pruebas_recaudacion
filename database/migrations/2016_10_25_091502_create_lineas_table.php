@@ -26,11 +26,11 @@ class CreateLineasTable extends Migration
             $table->integer('bl')->unsigned()->default(0);
             $table->integer('bc')->unsigned()->default(0);
             $table->integer('billetes')->unsigned()->default(0);
-            $table->decimal('total',6,2)->unsigned()->default(0);
+            $table->decimal('total',7,2)->unsigned()->default(0);
             $table->decimal('monedasI',5,2)->unsigned()->default(0);
             $table->integer('billetesI')->unsigned()->default(0);
-            $table->decimal('totalI',6,2)->unsigned()->default(0);
-            $table->decimal('diferencia',6,2)->default(0);
+            $table->decimal('totalI',7,2)->unsigned()->default(0);
+            $table->decimal('diferencia',7,2)->default(0);
 
             $table->boolean('verificado')->default(0);
             $table->timestamps();

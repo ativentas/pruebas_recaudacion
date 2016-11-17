@@ -6,7 +6,7 @@ crossorigin="anonymous">
 <style>
 .tg td{font-family:Arial, sans-serif;font-size:14px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#669;background-color:#e8edff;}
 .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#039;background-color:#b9c9fe;}
-.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {padding:5px !important;}
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {padding:4px !important;}
 </style>
 @section('content')
 <div class="container">
@@ -30,13 +30,14 @@ crossorigin="anonymous">
     <div class="panel-body">
         <div class="row">
 
+
 <form id="form_guardar" action="{{route('guardar',array('linea'=>':LINEA_ID','plantilla'=>$plantilla['id']))}}" method="POST"> 
 {{csrf_field()}} 
         <table class="table table-striped tg">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th style="width:10em;">Máquina</th>
+                    <th style="width:7em;">Máquina</th>
                     <th>Mon.</th>
                     <th>5</th>
                     <th>10</th>
@@ -61,7 +62,7 @@ crossorigin="anonymous">
                     <th scope="row">{{ $i++ }}</th>
                     <td> {{ $linea->maquina }}</td>
                     <td>
-                    <input class="dinero" type="number" min="0" max="9999" step="0.01" tabindex="" name="monedas{{$linea->id}}" pattern="[0-9]+([,\.][0-9][0-9])?" id="monedas{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedas}} style="width: 5em;" @if($linea->verificado==1) disabled @endif>
+                    <input class="dinero" type="number" min="0" max="9999" step="0.01" tabindex="" name="monedas{{$linea->id}}" pattern="[0-9]+([,\.][0-9][0-9])?" id="monedas{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedas}} style="width: 4em;" @if($linea->verificado==1) disabled @endif>
                     </td>
             <!-- billetes -->
                     <td>
@@ -223,9 +224,9 @@ crossorigin="anonymous">
             @elseif($plantilla->archivado == 1)
             Ya completado!!
             @endif
-        </div>
-    </div>
-</div>
+         </div> <!-- Fin del panel body -->
+    </div>  
+ </div> <!-- Fin del panel default-->
 </div>
 </div>
 </div>
