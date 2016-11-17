@@ -61,7 +61,7 @@ crossorigin="anonymous">
                     <th scope="row">{{ $i++ }}</th>
                     <td> {{ $linea->maquina }}</td>
                     <td>
-                    <input class="dinero" type="number" min="0" max="999" step="0.01" tabindex="" name="monedas{{$linea->id}}" pattern="[0-9]+([,\.][0-9][0-9])?" id="monedas{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedas}} style="width: 5em;" @if($linea->verificado==1) disabled @endif>
+                    <input class="dinero" type="number" min="0" max="9999" step="0.01" tabindex="" name="monedas{{$linea->id}}" pattern="[0-9]+([,\.][0-9][0-9])?" id="monedas{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedas}} style="width: 5em;" @if($linea->verificado==1) disabled @endif>
                     </td>
             <!-- billetes -->
                     <td>
@@ -90,7 +90,7 @@ crossorigin="anonymous">
                     </td>
             <!-- aquí van las recaudaciones que marcan las máquinas -->
                     <td>
-                    <input class="dineroI" type="number" min="0" max="999" step="0.01" tabindex="" name="monedasI{{$linea->id}}" pattern="[0-9]+([,\.][0-9][0-9])?" id="monedasI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedasI}} style="width: 5em;" @if($linea->verificado=='1') disabled @endif>
+                    <input class="dineroI" type="number" min="0" max="9999" step="0.01" tabindex="" name="monedasI{{$linea->id}}" pattern="[0-9]+([,\.][0-9][0-9])?" id="monedasI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedasI}} style="width: 5em;" @if($linea->verificado=='1') disabled @endif>
                     </td>
                     <td>
                     <input class="dineroI" type="number" min="0" max="9999" step="5" tabindex="" name="billetesI{{$linea->id}}" pattern="/d*" id="billetesI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->billetesI}} style="width: 4em;" @if($linea->verificado=='1') disabled @endif>
