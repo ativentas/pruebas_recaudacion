@@ -43,7 +43,7 @@ crossorigin="anonymous">
 {{csrf_field()}}        
             <tbody>
             @foreach($plantillas as $plantilla)
-                <tr data-id="{{$plantilla->id}}" @if ($plantilla->archivado==0) style="color:red;" @endif>
+                <tr data-id="{{$plantilla->id}}" @if ($plantilla->archivado==0) style="color:grey;" @else style="color:black" @endif>
                     <th> {{ $plantilla->semana }} </th>
                     <th> {{ $plantilla->year }} </th>
                     <th> {{ $plantilla->zona }} </th>
@@ -52,7 +52,7 @@ crossorigin="anonymous">
                     <td id="total{{$plantilla->id}}"> {{ number_format($plantilla->total,2,',','.')}} </td>
                     @if (Auth::user()->isAdmin())
                     <td> {{ number_format($plantilla->totalAnterior,2,',','.')}} </td>
-                    <td> {{ number_format($plantilla->diferencia,2,',','.')}}</td>
+                    <td class="signo"> {{ number_format($plantilla->diferencia,2,',','.')}}</td>
                     @endif
             <!-- boton Editar -->
                     <td>
@@ -84,6 +84,7 @@ crossorigin="anonymous">
 
 <script>
 $(document).ready(function() {
+    $("td.signo:contains('-')").attr('style','color:red');
     $('.btn-archivar').click(function(e){
 
         e.preventDefault();
@@ -118,7 +119,7 @@ $(document).ready(function() {
         }).done(function(){
             $('#Editar'+id).removeClass('btn-info').addClass('btn-success');
             $('#Editar'+id).text('Ver/Editar');
-            $('[data-id='+id+']').attr('style','color:red');
+            // $('[data-id='+id+']').attr('style','color:blue');
         })
 
     });

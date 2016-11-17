@@ -320,21 +320,9 @@ class RecaudaController extends Controller
     public function modificarPlantilla($plantilla_id, $archivado){
     	$plantilla = PlantillaZona::where('id', $plantilla_id)->first();
     	$plantilla->archivado = $archivado;
-    	// if($archivado == 0){
-    	// 	$plantilla->total = 0;
-    	// }
-    	// if($archivado == 1 && !empty($plantilla->totalprov)){
-    	// 	$plantilla->total = $plantilla->totalprov;
-    	// }
     	$plantilla->save();
 
     }
-
-    // public function guardarTotalPlantilla($plantilla_id, $total){
-    // 	$plantilla = PlantillaZona::where('id', $plantilla_id)->first();
-    // 	$plantilla->total = $total;
-    // 	$plantilla->save();
-    // }
 
 
 

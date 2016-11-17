@@ -3,6 +3,11 @@
 integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
 crossorigin="anonymous">
 </script>
+<style>
+.tg td{font-family:Arial, sans-serif;font-size:14px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#669;background-color:#e8edff;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#039;background-color:#b9c9fe;}
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {padding:5px !important;}
+</style>
 @section('content')
 <div class="container">
 <div class="row">
@@ -27,11 +32,11 @@ crossorigin="anonymous">
 
 <form id="form_guardar" action="{{route('guardar',array('linea'=>':LINEA_ID','plantilla'=>$plantilla['id']))}}" method="POST"> 
 {{csrf_field()}} 
-        <table class="table table-striped">
+        <table class="table table-striped tg">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Máquina</th>
+                    <th style="width:10em;">Máquina</th>
                     <th>Mon.</th>
                     <th>5</th>
                     <th>10</th>
@@ -56,7 +61,7 @@ crossorigin="anonymous">
                     <th scope="row">{{ $i++ }}</th>
                     <td> {{ $linea->maquina }}</td>
                     <td>
-                    <input class="dinero" type="number" min="0" max="999" step="0.01" tabindex="" name="monedas{{$linea->id}}" pattern="[0-9]+([,\.][0-9]+)?" id="monedas{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedas}} style="width: 4em;" @if($linea->verificado==1) disabled @endif>
+                    <input class="dinero" type="number" min="0" max="999" step="0.01" tabindex="" name="monedas{{$linea->id}}" pattern="[0-9]+([,\.][0-9][0-9])?" id="monedas{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedas}} style="width: 5em;" @if($linea->verificado==1) disabled @endif>
                     </td>
             <!-- billetes -->
                     <td>
@@ -80,23 +85,23 @@ crossorigin="anonymous">
                     </td>
             <!-- fin billetes. Abajo total de la suma de monedas y billetes de la linea --> 
                     <td>
-                    <label id="ltotal{{$linea->id}}">{{ $linea->total }}</label>
+                    <label id="ltotal{{$linea->id}}">{{ number_format($linea->total,2,',','.')}}</label>
                     <input class="dinerototalR" type="hidden" id="totalR{{$linea->id}}" name="totalR{{$linea->id}}" value={{$linea->total}} >
                     </td>
             <!-- aquí van las recaudaciones que marcan las máquinas -->
                     <td>
-                    <input class="dineroI" type="number" min="0" max="999" step="0.01" tabindex="" name="monedasI{{$linea->id}}" pattern="/d*" id="monedasI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedasI}} style="width: 4em;" @if($linea->verificado=='1') disabled @endif>
+                    <input class="dineroI" type="number" min="0" max="999" step="0.01" tabindex="" name="monedasI{{$linea->id}}" pattern="[0-9]+([,\.][0-9][0-9])?" id="monedasI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->monedasI}} style="width: 5em;" @if($linea->verificado=='1') disabled @endif>
                     </td>
                     <td>
                     <input class="dineroI" type="number" min="0" max="9999" step="5" tabindex="" name="billetesI{{$linea->id}}" pattern="/d*" id="billetesI{{$linea->id}}" size="" placeholder="" align="" value={{$linea->billetesI}} style="width: 4em;" @if($linea->verificado=='1') disabled @endif>
                     </td>                    
             <!-- totales por linea y diferencia -->
                     <td>
-                    <label id="ltotalI{{$linea->id}}">{{ $linea->totalI }}</label>
+                    <label id="ltotalI{{$linea->id}}">{{ number_format($linea->totalI,2,',','.') }}</label>
                     <input class="dinerototal" type="hidden" id="totalI{{$linea->id}}" name="totalI{{$linea->id}}" value={{$linea->totalI}} >
                     </td>
                     <td>
-                    <label id="ldif{{$linea->id}}">{{ $linea->diferencia }}</label>
+                    <label class="signo" id="ldif{{$linea->id}}">{{ number_format($linea->diferencia,2,',','.')}}</label> 
                     <input class="" type="hidden" id="diferencia{{$linea->id}}" name="diferencia{{$linea->id}}" value={{$linea->diferencia}} >
                     </td>
             <!-- botones validar/modificar -->
@@ -128,6 +133,8 @@ crossorigin="anonymous">
                     $("#totalR{{$linea->id}}").val(sum);
                     $("#ldif{{$linea->id}}").text(dif);
                     $("#diferencia{{$linea->id}}").val(dif);
+                    $("#ldif{{$linea->id}}:contains('-')").attr('style','color:red');
+
                 });
         // Cuando cambia el total de una linea de billetes.OK
                 $("#billetes{{$linea->id}}").change(function() {   
@@ -145,6 +152,7 @@ crossorigin="anonymous">
                     $("#totalR{{$linea->id}}").val(sum);
                     $("#ldif{{$linea->id}}").text(dif);
                     $("#diferencia{{$linea->id}}").val(dif);
+                    $("#ldif{{$linea->id}}:contains('-')").attr('style','color:red');
                 });                
 
                 $("#monedasI{{$linea->id}}").change(function() {   
@@ -161,6 +169,8 @@ crossorigin="anonymous">
                     $("#totalI{{$linea->id}}").val(sumI);
                     $("#ldif{{$linea->id}}").text(dif);
                     $("#diferencia{{$linea->id}}").val(dif);
+                    $("#ldif{{$linea->id}}:contains('-')").attr('style','color:red');
+
                 });
 
                 $("#billetesI{{$linea->id}}").change(function() {   
@@ -178,6 +188,8 @@ crossorigin="anonymous">
                     $("#totalI{{$linea->id}}").val(sumI);
                     $("#ldif{{$linea->id}}").text(dif);
                     $("#diferencia{{$linea->id}}").val(dif);
+                    $("#ldif{{$linea->id}}:contains('-')").attr('style','color:red');
+
                 });      
             });
 
@@ -193,7 +205,7 @@ crossorigin="anonymous">
                 <td><label id="lTOTALI">{{ $plantilla['totalI'] }}</label>
                 <input form="form_guardar" type="hidden" id="TOTALPlantillaI" name="TOTALPlantillaI" value="{{$plantilla['totalI']}}" readonly="readonly"></td>
                 <td>
-                <label id="ldiferencia">{{ $plantilla['diferencia'] }}</label>
+                <label class="signo" id="ldiferencia">{{ $plantilla['diferencia'] }}</label>
                 <input form="form_guardar" type="hidden" id="diferencia" name="diferencia" value="{{$plantilla['diferencia']}}" style="width: 4em;" readonly="readonly">
                 </td>
                 </tr>
@@ -221,6 +233,14 @@ crossorigin="anonymous">
 
 <script>
 $(document).ready(function() {
+    
+
+
+    // the following will select all 'label' elements with class "calculado"
+    // if the label element has a '-', it will assign a style red.
+
+    $("label.signo:contains('-')").attr('style','color:red');
+
     $('.btn-validar').click(function(e){
 
         e.preventDefault();
