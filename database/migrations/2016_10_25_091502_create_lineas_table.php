@@ -19,7 +19,8 @@ class CreateLineasTable extends Migration
             $table->integer('maquina_id');
             $table->string('maquina');
             $table->string('usuario');
-            $table->decimal('monedas',5,2)->unsigned()->default(0);
+            $table->decimal('pendiente',6,2)->unsigned()->default(0);            
+            $table->decimal('monedas',6,2)->unsigned()->default(0);
             $table->integer('bv')->unsigned()->default(0);
             $table->integer('bx')->unsigned()->default(0);
             $table->integer('bxx')->unsigned()->default(0);
@@ -27,11 +28,13 @@ class CreateLineasTable extends Migration
             $table->integer('bc')->unsigned()->default(0);
             $table->integer('billetes')->unsigned()->default(0);
             $table->decimal('total',7,2)->unsigned()->default(0);
-            $table->decimal('monedasI',5,2)->unsigned()->default(0);
+            $table->decimal('pagos',6,2)->unsigned()->default(0);
+            $table->decimal('monedasI',6,2)->unsigned()->default(0);
             $table->integer('billetesI')->unsigned()->default(0);
             $table->decimal('totalI',7,2)->unsigned()->default(0);
             $table->decimal('diferencia',7,2)->default(0);
-
+            $table->decimal('acumular',6,2)->unsigned()->default(0);
+            $table->decimal('descuadre',7,2)->default(0);
             $table->boolean('verificado')->default(0);
             $table->timestamps();
             
