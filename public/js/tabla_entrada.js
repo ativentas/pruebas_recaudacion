@@ -27,23 +27,32 @@ numeral.language('es-ES', {
 });
 numeral.language('es-ES');
 numeral.defaultFormat('0,0.00');
+formato_decimales = '0,0.00'
+formato_enteros = '0,0'
 
 $('.decimales').change(function() {
-    valor = $(this).val();
+    var valor = $(this).val();
     $(this).val(numeral(valor).format());
 });
 
-$('.rojo').change(function() {
-    valor = parseFloat(numeral().unformat($(this).text()));
-    if (valor<0) {$(this).attr('style', 'color:red');}
-    else {$(this).attr('style', 'color:black');}
 
+//para que cuando entre un valor en un input, me lo ponga en el formato que quiero
+$('.enteros').change(function() {
+    var valor = $(this).val();
+    $(this).val(numeral(valor).format(formato_enteros));
+});
+
+$('.rojo').change(function() {
+    var valor = parseFloat(numeral().unformat($(this).text()));
+    if (valor<0) {$(this).attr('style', 'color:red');}
+    else {$(this).attr('style', 'color:rgb(99, 107, 111)');}
 });
 
 //cuando se introducen los billetes
 $('.billetes').change(function(){
     var fila = $(this).parents('tr');
     var id = fila.data('id');
+    var tipo = 'R-'+id;
     var sum = 0;
     $(fila).find("input.billetes").each(function(){        
         var value = $(this).val();
@@ -57,14 +66,19 @@ $('.billetes').change(function(){
         }
     });
 
-    //poner el resultado en el input oculto y llamar función parcial_lineaChange       
-    var tipo = 'R-'+id;
 
     $('#span-billetes'+tipo).text(numeral(sum).format('0,0'));
     $('#billetes'+tipo).val(sum);
 
-    parcial_lineaChange(fila,tipo);
+    sumar_columna('billetesR',formato_enteros);
 
+    //calcular total de la columna. (quitar el linea->id al name para buscar toda la columna)
+    var input_id = $(this).attr('id');   
+    input_id = input_id.replace('-'+id,'');//aqui id se refiere a linea->id
+    
+    sumar_columna(input_id,formato_enteros);        
+
+    parcial_lineaChange(fila,tipo);
 });
 
 //Entrada de recaudacion real y lectura
@@ -78,19 +92,34 @@ $('.parcial_linea').change(function() {
         var t = 'L-';
     }
     var tipo = t+id;
+    var input_id = $(this).attr('id');
+    input_id = input_id.replace('-'+id,'');//aqui id se refiere a linea->id
+    sumar_columna(input_id,formato_decimales);
     parcial_lineaChange(fila,tipo);
 });
 
 //entradas especiales: pagos y acumular siguiente plantilla
 $('.entradas_especiales').change(function() {
     var fila = $(this).parents('tr');
-    alert('ha cambiao');
+    var id = fila.data('id');
     calcular_diferencias(fila);
+    var input_id = $(this).attr('id');
+    input_id = input_id.replace('-'+id,'');//aqui id se refiere a linea->id
+    sumar_columna(input_id,formato_decimales);
 });
+
+//cuando cambian los totales y la diferencia y descuadre
+$('.totales').change(function(){
+    var fila = $(this).parents('tr');
+    var id = fila.data('id');
+    var input_id = $(this).attr('id');
+    input_id = input_id.replace('-'+id,'');
+    sumar_columna(input_id,formato_decimales);
+})
 
 function parcial_lineaChange (fila,tipo) {
   //elegir todos los inputs con clase parcial_linea y id acabada en L-id o R-id ;
-  sum = 0;
+  var sum = 0;
   $(fila).find('input[id$='+tipo+']').filter('.parcial_linea ').each(function(){
     var value = $(this).val();
         value = numeral().unformat(value);
@@ -100,18 +129,17 @@ function parcial_lineaChange (fila,tipo) {
   });
   sum = numeral(sum).format();
   //poner el total de la recaudación y llamar a la función calcular_diferencia (fila)
-  $('input[id=total'+tipo+']').val(sum);
+  $('input[id=total'+tipo+']').val(sum).change();
   $('#span-total'+tipo).text(sum);
   calcular_diferencias(fila);
 }
 
 function calcular_diferencias (fila) {
-    sum = 0;
-    id = $(fila).data('id');
-    // var pendiente = $('#'). ver si me sale la otra técnica
+    var sum = 0;
+    var id = $(fila).data('id');
 
-    //creo que lo siguiente es mejor: para calcular la diferencia, sumar todos, 
-    // pero primero multiplicarlo cada uno por su signo: data-signo=-1
+    // para calcular la diferencia, sumar todos, 
+    // pero primero multiplicarlo cada uno por su signo: data-signo= 1 o -1
     $(fila).find('.subtotal_linea').each(function(){
         var value = $(this).val();
         value = numeral().unformat(value);
@@ -125,20 +153,27 @@ function calcular_diferencias (fila) {
     var acumular = numeral().unformat($('#acumular-'+id).val());
     var descuadre = sum - acumular;
     
-    descuadre = numeral(descuadre).format()
-    diferencia = numeral(sum).format();
+    var descuadre = numeral(descuadre).format()
+    var diferencia = numeral(sum).format();
 
-    $('#diferencia-'+id).val(diferencia);
-    $('#span-diferencia-'+id).text(diferencia).change();
-    $('#descuadre-'+id).val(descuadre);
-    $('#span-descuadre-'+id).text(descuadre).change();
+    $('#diferencia-'+id).val(diferencia).change();
+    $('#span-diferencia-'+id).text(diferencia).change();//para rojos negativos
+    $('#descuadre-'+id).val(descuadre).change();
+    $('#span-descuadre-'+id).text(descuadre).change();//para rojos negativos
 
 }
 
+function sumar_columna(input_id,formato){
+    var columna = 0;
+    $('input[id^='+input_id+']').each(function(){
+        var value = $(this).val();
+        value = numeral().unformat(value);       
+        columna +=parseFloat(value);
+    });
+    //poner columna en su span e input correspondiente 
+    $('#span-columna_'+input_id+'').text(numeral(columna).format(formato)).change();//para rojos negativos;
+    $('#columna_'+input_id+'').val(numeral(columna).format(formato));
 
-
-
-
-
+}
 
 });    
