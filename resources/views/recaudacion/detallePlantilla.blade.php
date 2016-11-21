@@ -6,7 +6,7 @@ crossorigin="anonymous">
 <script src="{{asset('js/numeral.js')}}"></script>
 <script src="{{asset('js/es-ES.js')}}"></script>
 
-<link href="{{asset('css/nueva_entrada_datos.css')}}" media="all" rel="stylesheet" type="text/css" />
+<link href="{{asset('css/entrada_datos.css')}}" media="all" rel="stylesheet" type="text/css" />
 
 @section('content')
 
@@ -85,11 +85,14 @@ crossorigin="anonymous">
   <tr data-id="{{$linea->id}}">
     <td class="st-orden">{{ $i++ }}</td>
     <td class="st-maquina">{{$linea->maquina}}</td>
-<!-- !!!!!!!está mal, hay que poner oculto -->
-    <td class="st-pendiente"><input class="" name="pendiente{{$linea->id}}" type="text" value="{{number_format($linea->pendiente,2,',','.')}}"></td>
+<!-- pendiente -->
+    <td class="st-pendiente"><span class="" id="span-pendiente-{{$linea->id}}">{{number_format($linea->pendiente,2,',','.')}}</span>
+    <input data-signo = 1 class="subtotal_linea" type="hidden" id="pendiente-{{$linea->id}}" name="pendiente{{$linea->id}}"  value="{{number_format($linea->pendiente,2,',','.')}}"></td>
+<!-- entrada monedas real --> 
+<!-- Este fallaba para el punto de los miles: pattern="^[0-9]{1,4}([,][0-9]{1,2})?$" -->
+<!-- También se puede borrar el pattern y entonces sale todo bien, lo único es que no hay límite de tamaño en la pantalla y no podré mostrar los errores (si es que lo voy a hacer) -->
     <td class="st-entrada real">
-<!-- entrada monedas real -->
-    <input class="parcial_linea" id="monedasR-{{$linea->id}}" name="monedas{{$linea->id}}" type="text" pattern="^\d+(\.\d{1,2})?$" value="{{number_format($linea->monedas,2,',','.')}}"></td>
+    <input class="parcial_linea real decimales" id="monedasR-{{$linea->id}}" name="monedas{{$linea->id}}" type="text" pattern="^([0-9]{1,2}\.)?([0-9]{1,3})([,][0-9]{1,2})?$" placeholder="monedas" value="{{number_format($linea->monedas,2,',','.')}}"></td>
 <!-- entrada billetes -->
     <td data-valor="5" class="st-entrada"><input class="billetes" type='text' value="{{$linea->bv}}" name="bv-{{$linea->id}}"/></td>
     <td data-valor="10" class="st-entrada"><input class="billetes" type='text' value="{{$linea->bx}}" name="bx-{{$linea->id}}"/></td>
@@ -98,41 +101,51 @@ crossorigin="anonymous">
     <td data-valor="100" name="bc-{{$linea->id}}" class="st-entrada"><input class="billetes" type='text' value="{{$linea->bc}}" /></td>
 <!-- suma billetes -->
     <td class="st-suma_billetes"><span class="" id="span-billetesR-{{$linea->id}}">{{number_format($linea->billetes,0,',','.')}}</span>
-    <input class="parcial_linea" type="hidden" id="billetesR-{{$linea->id}}" name="billetesR{{$linea->id}}" value="{{number_format($linea->billetes,0,',','.')}}"></td>
+    <input class="parcial_linea real" type="hidden" id="billetesR-{{$linea->id}}" name="billetesR{{$linea->id}}" value="{{number_format($linea->billetes,0,',','.')}}"></td>
 <!-- total linea real -->
-    <td class="st-total"><span class="" id="span-totalR-{{$linea->id}}">{{number_format($linea->total,2,',','.')}}</span><input  class="" type="hidden" id="" name="" value=""></td>
+    <td class="st-total"><span class="" id="span-totalR-{{$linea->id}}">{{number_format($linea->total,2,',','.')}}</span>
+    <input data-signo = 1 class="subtotal_linea" type="hidden" id="totalR-{{$linea->id}}" name="total{{$linea->id}}" value="{{number_format($linea->total,2,',','.')}}"></td>
 <!-- pagos -->
-    <td class="st-entrada">{{number_format($linea->pagos,2,',','.')}}</td>
+    <td class="st-entrada">
+    <input data-signo = 1 class="subtotal_linea decimales entradas_especiales" id="pagos-{{$linea->id}}" name="pagos{{$linea->id}}" type="text" pattern="^[0-9]{1,3}([,][0-9]{1,2})?$" value="{{number_format($linea->pagos,2,',','.')}}"></td>
 <!-- lectura -->
-    <td class="st-entrada parcial_linea" id="monedasL-{{$linea->id}}">{{number_format($linea->monedasI,2,',','.')}}</td>
-    <td class="st-entrada parcial_linea">{{number_format($linea->billetesI,2,',','.')}}</td>
-    <td class="st-total">{{number_format($linea->totalI,2,',','.')}}</td>
-    <td class="st-diferencia">{{number_format($linea->diferencia,2,',','.')}}</td>
-    <td class="st-entrada">{{number_format($linea->acumular,2,',','.')}}</td>
-    <td class="st-diferencia">{{number_format($linea->descuadre,2,',','.')}}</td>
+    <td class="st-entrada">
+    <input class="parcial_linea lectura decimales" id="monedasL-{{$linea->id}}" name="monedasI{{$linea->id}}" type="text" value="{{number_format($linea->monedasI,2,',','.')}}"></td>
+    <td class="st-entrada">
+    <input class="parcial_linea lectura" id="billetesL-{{$linea->id}}" name="billetesI{{$linea->id}}" type="text" value="{{number_format($linea->billetesI,0,',','.')}}"></td>
+<!-- total linea Lectura -->
+    <td class="st-total"><span class="" id="span-totalL-{{$linea->id}}">{{number_format($linea->totalI,2,',','.')}}</span>
+    <input data-signo = -1 class="subtotal_linea" type="hidden" id="totalL-{{$linea->id}}" name="totalI{{$linea->id}}" value="{{number_format($linea->totalI,2,',','.')}}"></td>
+<!-- Diferencias -->
+    <td class="st-diferencia"><span class="rojo" id="span-diferencia-{{$linea->id}}">{{number_format($linea->diferencia,2,',','.')}}</span>
+    <input class="subresultado" type="hidden" id="diferencia-{{$linea->id}}" name="diferencia{{$linea->id}}" value="{{number_format($linea->diferencia,2,',','.')}}"></td>
+    <td class="st-entrada">
+    <input class="entradas_especiales decimales" id="acumular-{{$linea->id}}" name="acumular{{$linea->id}}" type="text" pattern="^([0-9]{1,2}\.)?([0-9]{1,3})([,][0-9]{1,2})?$" value="{{number_format($linea->acumular,2,',','.')}}"></td>
+    <td class="st-diferencia"><span class="rojo" id="span-descuadre-{{$linea->id}}">{{number_format($linea->descuadre,2,',','.')}}</span>
+    <input  class="subresultado" type="hidden" id="descuadre-{{$linea->id}}" name="descuadre{{$linea->id}}" value="{{number_format($linea->descuadre,2,',','.')}}"></td>
 <!-- botones -->
     <td class="st-vuu7">Validar</td>
   </tr>
     @endforeach
   <tr>
-    <td class="st-bsv2"></td>
-    <td class="st-ypb4">TOTALES</td>
-    <td class="st-hv2l">720,00</td>
-    <td class="st-dw4u">1.210,50</td>
-    <td class="st-9vst"></td>
-    <td class="st-9vst">20</td>
-    <td class="st-9vst">1</td>
     <td class="st-my2k"></td>
-    <td class="st-my2k"></td>
-    <td class="st-c7at">220</td>
-    <td class="st-85oi">1.110,50</td>
-    <td class="st-l2oz">25,00</td>
-    <td class="st-c7at">1.011,00</td>
-    <td class="st-c7at">500</td>
-    <td class="st-n1j6">1.510,00</td>
-    <td class="st-n1j6">320,50</td>
-    <td class="st-l2oz">320,00</td>
-    <td class="st-n1j6">1,50</td>
+    <td class="st-ypb4"><span>TOTALES</span></td>
+    <td class="st-Total"><span></span></td>
+    <td class="st-totalMonedas">1.210,50</td>
+    <td class="st-billete"></td>
+    <td class="st-billete">20</td>
+    <td class="st-billete">1</td>
+    <td class="st-billete"></td>
+    <td class="st-billete"></td>
+    <td class="st-billetes">220</td>
+    <td class="st-Total">1.110,50</td>
+    <td class="st-TotalVarios">25,00</td>
+    <td class="st-totalMonedas">1.011,00</td>
+    <td class="st-billetes">500</td>
+    <td class="st-Total">1.510,00</td>
+    <td class="st-Total">320,50</td>
+    <td class="st-TotalVarios">320,00</td>
+    <td class="st-Total">1,50</td>
     <td class="st-my2k"></td>
   </tr>
 </table></div>

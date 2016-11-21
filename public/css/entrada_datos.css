@@ -1,20 +1,53 @@
-.tg td{
-	font-family:Arial, sans-serif;font-size:14px;
-	border-style:solid;border-width:1px;
-	overflow:hidden;word-break:normal;
-	border-color:#aabcfe;color:#669;
-	background-color:#e8edff;
-}
-.tg th{
-	font-family:Arial, sans-serif;font-size:14px;font-weight:normal;
-	border-style:solid;border-width:1px;overflow:hidden;
-	word-break:normal;border-color:#aabcfe;color:#039;
-	background-color:#b9c9fe;
+<style type="text/css">
+.st-table  {border-collapse:collapse;border-spacing:0;}
+.st-table td{font-family:Arial, sans-serif;font-size:14px;padding:5px 3px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.st-table th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.st-table tr{height:33px;}
+/*Lineas*/
+.st-table .st-entrada{text-align:right}
+.st-table .st-pendiente{background-color:#ecf4ff;text-align:right}
+.st-table .st-orden{background-color:#efefef;text-align:center}
+.st-table .st-maquina{background-color:#efefef}
+.st-table .st-suma_billetes{background-color:#efefef;text-align:right}
+.st-table .st-total{background-color:#ecf4ff;text-align:right}
+.st-table .st-diferencia{background-color:#ecf4ff;text-align:right}
+
+/*Encabezados* y Totales*/
+
+.st-table .st-Total{font-weight:bold;background-color:#ecf4ff;color:#333333;text-align:right}
+.st-table .st-totalMonedas{font-weight:bold;background-color:#efefef;color:#333333;text-align:right}
+.st-table .st-billetes{font-weight:bold;background-color:#efefef;color:#333333;text-align:right}
+.st-table .st-billete{font-weight:bold;color:#333333;text-align:right}
+.st-table .st-TotalVarios{font-weight:bold;background-color:#efefef;text-align:right}
+.st-table .st-o5kn{color:#32cb00;text-align:center;vertical-align:top}
+.st-table .st-yzt1{background-color:#efefef}
+.st-table .st-vh0g{background-color:#bbdaff;color:#000000}
+.st-table .st-l7kw{background-color:#efefef;color:#cb0000;text-align:center}
+.st-table .st-ftxs{font-size:16px;background-color:#bbdaff;text-align:center}
+.st-table .st-4und{font-size:16px;background-color:#bbdaff;text-align:center}
+.st-table .st-il6h{background-color:#bbdaff;color:#000000}
+.st-table .st-14nr{background-color:#bbdaff;text-align:center}
+.st-table .st-y2da{background-color:#bbdaff;color:#333333;text-align:center}
+.st-table .st-ltqa{background-color:#bbdaff;text-align:center}
+.st-table .st-vuu7{background-color:#efefef;color:#32cb00;text-align:center}
+.st-table .st-ypb4{font-weight:bold;background-color:#efefef;text-align:right}
+
+.st-table .st-n1j6{font-weight:bold;background-color:#ecf4ff;text-align:right}
+
+/*elementos de la tabla*/
+
+table td{ padding: 0px 0; }
+input
+{
+width: 100%;
+padding: 0px;
+margin: 0px;
+box-sizing: border-box;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+border-style:none;
+text-align:right;
 }
 
-.table > tbody > tr > td, 
-.table > tbody > tr > th, 
-.table > tfoot > tr > td, 
-.table > tfoot > tr > th, 
-.table > thead > tr > td, 
-.table > thead > tr > th {padding:4px !important;}
+
+@media screen and (max-width: 767px) {.st {width: auto !important;}.st col {width: auto !important;}.st-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}</style>
