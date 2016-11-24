@@ -44,10 +44,11 @@
                     <!-- Left Side Of Navbar -->
                     @if (Auth::check())
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ url('/control') }}">Home</a></li>
+                        <!-- <li><a href="{{ url('/control') }}">Home</a></li> -->
                         @if (Auth::user()->isAdmin())
                         <li><a href="{{ url('/maquinas') }}">Maquinas</a></li>
                         <li><a href="{{ url('/ventas') }}">Informe Ventas</a></li>
+                        <li><a href="{{ url('/descuadres') }}">Descuadres Plantillas</a></li>
                         <!-- &nbsp; -->
                         @endif
                     </ul>

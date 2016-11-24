@@ -1,6 +1,30 @@
 
 $(document).ready(function() {
 
+
+$( '.rojo' ).each(function() {
+    var valor = parseFloat(numeral().unformat($(this).text()));
+    if (valor<0) {$(this).attr('style', 'color:red');}
+    else {$(this).attr('style', 'color:rgb(99, 107, 111)');}
+});
+    var fila = $(this).parents('tr');
+    var id = fila.data('id');
+
+/*no he conseguido que funcione esto, de momento deshabilito estos botones.
+Mi idea era que el botón sirviese para resaltar la linea*/
+// $('button[id$="-439"]').toggle(function(){
+// // $('button[id$="-'+id+'"]').toggle(function(){
+//     alert('marcado');
+//     // $('#tr-'+id+'').addClass("marcado");
+//     // $('#tr-439').css("background-color","red");
+// }, function () {
+//     alert('desmarcado');
+//     // $('#tr-'+id+'').removeClass("marcado");        
+//     // $('#tr-439').removeClass("marcado");        
+// });
+
+
+
 // load a language
 numeral.language('es-ES', {
         delimiters: {
@@ -33,13 +57,14 @@ formato_enteros = '0,0'
 $('.decimales').change(function() {
     var valor = $(this).val();
     $(this).val(numeral(valor).format());
-});
 
+});
 
 //para que cuando entre un valor en un input, me lo ponga en el formato que quiero
 $('.enteros').change(function() {
     var valor = $(this).val();
     $(this).val(numeral(valor).format(formato_enteros));
+
 });
 
 $('.rojo').change(function() {
@@ -65,7 +90,6 @@ $('.billetes').change(function(){
             sum +=parseInt(calculado);
         }
     });
-
 
     $('#span-billetes'+tipo).text(numeral(sum).format('0,0'));
     $('#billetes'+tipo).val(sum);
@@ -117,6 +141,53 @@ $('.totales').change(function(){
     sumar_columna(input_id,formato_decimales);
 })
 
+
+/*Marca una linea (para llevar un control visual 
+de los datos que vamos mentiendo))*/
+$('.btn-marcar').click(function(e){
+    e.preventDefault();
+    var fila = $(this).parents('tr');
+    var id = fila.data('id');
+/*aplicar estilo amarillo a toda la linea*  FALTA HACER*/
+alert('hola');
+    fila.css('style','background-color:yellow');
+    $(this).hide();
+    $(this).next().show(); 
+});
+// var htmlattri="background-color:red;";
+// $('a').css("style",htmlattri);
+
+/**
+ * Guardar Datos.
+ */
+
+
+$('.btn-guardar').click(function(e){
+    e.preventDefault();
+    var form = $('#form_guardar');
+    var url = form.attr('action').replace(':LINEA_ID','Algunas'); 
+    $('.dinero').prop('disabled', false);//para que envie todos los datos
+    $('.billetes').prop('disabled', false);//para que envie todos los datos
+    $('.dineroI').prop('disabled', false);//para que envie todos los datos
+    var data = form.serialize();
+    $.post(url, data, function(){
+    }).done(function(){
+        alert('cambios guardados');
+        // $(location).attr("href", '/detalle/{{$plantilla->id}}');RESOLVER!!!! ya no tengo
+        // la $plantilla->id, se ve que al separar el js, ya no tengo acceso, ver la forma de
+        // pasar la variable aquí
+
+    });
+    // $(location).attr("href", '/control');
+});
+
+
+ /**
+ * Funciones
+ *
+ */ 
+ 
+
 function parcial_lineaChange (fila,tipo) {
   //elegir todos los inputs con clase parcial_linea y id acabada en L-id o R-id ;
   var sum = 0;
@@ -167,6 +238,7 @@ function sumar_columna(input_id,formato){
     var columna = 0;
     $('input[id^='+input_id+']').each(function(){
         var value = $(this).val();
+        // alert(value);
         value = numeral().unformat(value);       
         columna +=parseFloat(value);
     });
@@ -175,5 +247,7 @@ function sumar_columna(input_id,formato){
     $('#columna_'+input_id+'').val(numeral(columna).format(formato));
 
 }
+
+
 
 });    

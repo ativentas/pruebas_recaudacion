@@ -112,7 +112,7 @@ crossorigin="anonymous">
             <!-- almacena el estado -->
                     <input type="text" id="verificado{{$linea->id}}" name="verificado{{$linea->id}}" value="{{$linea->verificado}}" style=display:none;">
                 </tr>
-            <script>
+        <script>
             $(document).ready(function() {
 
                 $("#monedas{{$linea->id}}").change(function() {                              
@@ -192,7 +192,7 @@ crossorigin="anonymous">
                 });      
             });
 
-            </script>
+        </script>
             @endforeach
             </tbody>   
             <tfoot>
@@ -233,8 +233,6 @@ crossorigin="anonymous">
 <script>
 $(document).ready(function() {
     
-
-
     // the following will select all 'label' elements with class "calculado"
     // if the label element has a '-', it will assign a style red.
 
@@ -251,6 +249,7 @@ $(document).ready(function() {
         var url = form.attr('action').replace(':LINEA_ID', id);
         $('#billetes'+id).prop('disabled', false);
         var data = form.serialize();
+        dd(data);
         $.post(url, data, function(){
         });
 

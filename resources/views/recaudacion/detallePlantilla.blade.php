@@ -19,10 +19,10 @@ crossorigin="anonymous">
        @include('layouts.alerts')            
         <div class="row">
                 <ol class="breadcrumb">
-                    <li><a href="{{ url('control') }}">Listado</a></li>
-                    <li><a href="{{ url('seleccionar') }}">Nueva Recaudacion</a></li>
+                    <li><a href="{{ url('control') }}">Volver a Listado</a></li>
+                    <!-- <li><a href="{{ url('seleccionar') }}">Nueva Recaudacion</a></li> -->
                     @if ($plantilla->archivado == '0')
-                    <li style="margin:0 0 0 20em;"><button class="btn-primary btn-xs btn-guardar" name="guardar">Guardar Cambios</button></li>
+                    <li><button class="btn-success btn-xs btn-guardar" name="guardar">Guardar Cambios</button></li>
                     @endif
                 </ol>
         </div>
@@ -31,7 +31,10 @@ crossorigin="anonymous">
     <div class="panel-body">
 
 <div class="st-wrap">
-<table class="st-table" style="undefined;table-layout: fixed; width: 1005px">
+<form id="form_guardar" action="{{route('guardar',array('linea'=>':LINEA_ID','plantilla'=>$plantilla['id']))}}" method="POST"> 
+{{csrf_field()}}
+
+<table class="st-table" style="undefined;table-layout: fixed; width: 1005px;">
 <colgroup>
     <col style="width: 22px">
     <col class="ancho_maquina" style="width: 115px">
@@ -51,7 +54,7 @@ crossorigin="anonymous">
     <col style="width: 66px">
     <col style="width: 66px">
     <col style="width: 66px">
-    <col style="width: 67px">
+    <!-- <col style="width: 67px"> -->
 </colgroup>
   <tr>
     <th class="st-vh0g" rowspan="2">#</th>
@@ -59,7 +62,7 @@ crossorigin="anonymous">
     <th class="st-4und" colspan="10">Recaudacion</th>
     <th class="st-4und" colspan="3">Lectura</th>
     <th class="st-4und" colspan="3">Descuadres</th>
-    <th class="st-il6h" rowspan="2"></th>
+    <!-- <th class="st-il6h" rowspan="2"></th> -->
   </tr>
   <tr>
     <th class="st-14nr">Pdte.</th>
@@ -82,20 +85,20 @@ crossorigin="anonymous">
     <?php $i = 1;?>
 <!-- empiezan las lineas -->
     @foreach($lineas as $linea)
-  <tr data-id="{{$linea->id}}">
+  <tr id="tr-{{$linea->id}}" data-id="{{$linea->id}}">
     <td class="st-orden">{{ $i++ }}</td>
-    <td class="st-maquina">{{$linea->maquina}}</td>
+    <td class="st-maquina">{{$linea->maquina_nombre}}</td>
 <!-- pendiente -->
     <td class="st-pendiente"><span class="" id="span-pendiente-{{$linea->id}}">{{number_format($linea->pendiente,2,',','.')}}</span>
     <input data-signo = 1 class="subtotal_linea" type="hidden" id="pendiente-{{$linea->id}}" name="pendiente{{$linea->id}}"  value="{{number_format($linea->pendiente,2,',','.')}}"></td>
 <!-- entrada monedas real --> 
 <!-- También se puede borrar el pattern y entonces sale todo bien, lo único es que no hay límite de tamaño en la pantalla y no podré mostrar los errores (si es que lo voy a hacer) -->
     <td class="st-entrada real">
-    <input class="parcial_linea real decimales" id="monedasR-{{$linea->id}}" name="monedas{{$linea->id}}" type="text" pattern="^([0-9]{1,2}\.)?([0-9]{1,3})([,][0-9]{1,2})?$" placeholder="monedas" value="{{number_format($linea->monedas,2,',','.')}}"></td>
+    <input class="parcial_linea real decimales" id="monedasR-{{$linea->id}}" name="monedasR{{$linea->id}}" type="text" pattern="^([0-9]{1,2}\.)?([0-9]{1,3})([,][0-9]{1,2})?$" placeholder="monedas" value="{{number_format($linea->monedas,2,',','.')}}"></td>
 <!-- entrada billetes -->
     <td data-valor="5" class="st-entrada"><input class="billetes" type='text' value="{{$linea->bv}}" id="bv-{{$linea->id}}" name="bv-{{$linea->id}}"/></td>
     <td data-valor="10" class="st-entrada"><input class="billetes" type='text' value="{{$linea->bx}}" id="bx-{{$linea->id}}" name="bx-{{$linea->id}}"/></td>
-    <td data-valor="20" class="st-entrada"><input class="billetes" type='text' value="{{$linea->bxx}}" id="bxx-{{$linea->id}}" name="bxx-{{$linea->id}}"/></td>
+    <td data-valor="20" class="st-entrada"><input class="billetes" type='text' value="{{$linea->b2x}}" id="b2x-{{$linea->id}}" name="b2x-{{$linea->id}}"/></td>
     <td data-valor="50" class="st-entrada"><input class="billetes" type='text' value="{{$linea->bl}}" id="bl-{{$linea->id}}" name="bl-{{$linea->id}}"/></td>
     <td data-valor="100" class="st-entrada"><input class="billetes" type='text' value="{{$linea->bc}}" id="bc-{{$linea->id}}" name="bc-{{$linea->id}}"/></td>
 <!-- suma billetes -->
@@ -103,18 +106,18 @@ crossorigin="anonymous">
     <input class="parcial_linea real" type="hidden" id="billetesR-{{$linea->id}}" name="billetesR{{$linea->id}}" value="{{number_format($linea->billetes,0,',','.')}}"></td>
 <!-- total linea real -->
     <td class="st-total"><span class="" id="span-totalR-{{$linea->id}}">{{number_format($linea->total,2,',','.')}}</span>
-    <input data-signo = 1 class="subtotal_linea totales" type="hidden" id="totalR-{{$linea->id}}" name="total{{$linea->id}}" value="{{number_format($linea->total,2,',','.')}}"></td>
+    <input data-signo = 1 class="subtotal_linea totales" type="hidden" id="totalR-{{$linea->id}}" name="totalR{{$linea->id}}" value="{{number_format($linea->totalR,2,',','.')}}"></td>
 <!-- pagos -->
     <td class="st-entrada">
     <input data-signo = 1 class="subtotal_linea decimales entradas_especiales" id="pagos-{{$linea->id}}" name="pagos{{$linea->id}}" type="text" pattern="^[0-9]{1,3}([,][0-9]{1,2})?$" value="{{number_format($linea->pagos,2,',','.')}}"></td>
 <!-- lectura -->
     <td class="st-entrada">
-    <input class="parcial_linea lectura decimales" id="monedasL-{{$linea->id}}" name="monedasI{{$linea->id}}" type="text" value="{{number_format($linea->monedasI,2,',','.')}}"></td>
+    <input class="parcial_linea lectura decimales" id="monedasL-{{$linea->id}}" name="monedasL{{$linea->id}}" type="text" value="{{number_format($linea->monedasL,2,',','.')}}"></td>
     <td class="st-entrada">
-    <input class="parcial_linea lectura enteros" id="billetesL-{{$linea->id}}" name="billetesI{{$linea->id}}" type="text" value="{{number_format($linea->billetesI,0,',','.')}}"></td>
+    <input class="parcial_linea lectura enteros" id="billetesL-{{$linea->id}}" name="billetesL{{$linea->id}}" type="text" value="{{number_format($linea->billetesL,0,',','.')}}"></td>
 <!-- total linea Lectura -->
     <td class="st-total"><span class="" id="span-totalL-{{$linea->id}}">{{number_format($linea->totalI,2,',','.')}}</span>
-    <input data-signo = -1 class="subtotal_linea totales" type="hidden" id="totalL-{{$linea->id}}" name="totalI{{$linea->id}}" value="{{number_format($linea->totalI,2,',','.')}}"></td>
+    <input data-signo = -1 class="subtotal_linea totales" type="hidden" id="totalL-{{$linea->id}}" name="totalL{{$linea->id}}" value="{{number_format($linea->totalL,2,',','.')}}"></td>
 <!-- Diferencias -->
     <td class="st-diferencia"><span class="rojo" id="span-diferencia-{{$linea->id}}">{{number_format($linea->diferencia,2,',','.')}}</span>
     <input class="subresultado totales" type="hidden" id="diferencia-{{$linea->id}}" name="diferencia{{$linea->id}}" value="{{number_format($linea->diferencia,2,',','.')}}"></td>
@@ -122,33 +125,45 @@ crossorigin="anonymous">
     <input class="entradas_especiales decimales" id="acumular-{{$linea->id}}" name="acumular{{$linea->id}}" type="text" pattern="^([0-9]{1,2}\.)?([0-9]{1,3})([,][0-9]{1,2})?$" value="{{number_format($linea->acumular,2,',','.')}}"></td>
     <td class="st-diferencia"><span class="rojo" id="span-descuadre-{{$linea->id}}">{{number_format($linea->descuadre,2,',','.')}}</span>
     <input  class="subresultado totales" type="hidden" id="descuadre-{{$linea->id}}" name="descuadre{{$linea->id}}" value="{{number_format($linea->descuadre,2,',','.')}}"></td>
-<!-- botones -->
-    <td class="st-vuu7">Validar</td>
+<!-- botones y verificado -->
+<!--     <td class="st-vuu7">
+    @if ($plantilla->archivado == '0') 
+    <button class="btn btn-success btn-xs btn-toggle" id="marcar-{{$linea->id}}" name="marcar{{$linea->id}}" type="button"</span>Marcar</button>
+    <button class="btn btn-info btn-xs btn-toggle" id="desmarcar-{{$linea->id}}" name="desmarcar{{$linea->id}}" type="button" style="display:none;"></span>Desmarcar</button>
+    @endif
+    </td> -->
+    <input type="hidden" id="marcado-{{$linea->marcado}}" name="marcado{{$linea->marcado}}">
   </tr>
     @endforeach
+<!-- FOOT foot: ver si es mejor especificar el foot (yo creo que sí)-->
   <tr>
     <td class="st-my2k"></td>
     <td class="st-ypb4"><span>TOTALES</span></td>
     <td class="st-Total"><span id="span-columna_pendiente"></span><input id="columna_pendiente" type="hidden" name="columna_pendiente"></td>
-    <td class="st-totalMonedas"><span id="span-columna_monedasR"></span><input id="columna_monedasR" type="hidden" name="columna_monedasR"></td>
-    <td class="st-billete"><span id="span-columna_bv"></span><input id="columna_bv" type="hidden" name="columna_bv"></td>
-    <td class="st-billete"><span id="span-columna_bx"></span><input id="columna_bx" type="hidden" name="columna_bx"></td>
-    <td class="st-billete"><span id="span-columna_bxx"></span><input id="columna_bxx" type="hidden" name="columna_bxx"></td>
-    <td class="st-billete"><span id="span-columna_bl"></span><input id="columna_bl" type="hidden" name="columna_bl"></td>
-    <td class="st-billete"><span id="span-columna_bc"></span><input id="columna_bc" type="hidden" name="columna_bc"></td>
-    <td class="st-billetes"><span id="span-columna_billetesR"></span><input id="columna_billetesR" type="hidden" name="columna_billetesR"></td>
-    <td class="st-Total"><span id="span-columna_totalR">{{number_format($plantilla->total,2,',','.')}}</span><input id="columna_totalR" type="hidden" name="TOTALPlantilla"></td>
-    <td class="st-TotalVarios"><span id="span-columna_pagos"></span><input id="columna_pagos" type="hidden" name="columna_pagos"></td>
-    <td class="st-totalMonedas"><span id="span-columna_monedasL"></span><input id="columna_monedasL" type="hidden" name="columna_monedasL"></td>
-    <td class="st-billetes"><span id="span-columna_billetesL"></span><input id="columna_billetesL" type="hidden" name="columna_billetesL"></td>
-    <td class="st-Total"><span id="span-columna_totalL">{{number_format($plantilla->totalI,2,',','.')}}</span><input id="columna_totalL" type="hidden" name="TOTALPlantillaI"></td>
-    <td class="st-Total"><span class="rojo" id="span-columna_diferencia">{{number_format($plantilla->diferencia,2,',','.')}}</span><input id="columna_diferencia" type="hidden" name="diferencia"></td>
-    <td class="st-TotalVarios"><span id="span-columna_acumular"></span><input id="columna_acumular" type="hidden" name="columna_acumular"></td>
-    <td class="st-Total"><span class="rojo" id="span-columna_descuadre"></span><input id="columna_descuadre" type="hidden" name="columna_descuadre"></td>
-    <td class="st-my2k"></td>
+<!-- FOOT: REAL -->
+    <td class="st-totalMonedas"><span id="span-columna_monedasR">{{number_format($plantilla->monedasR,2,',','.')}}</span><input id="columna_monedasR" type="hidden" name="columna_monedasR" value="{{number_format($plantilla->monedasR,2,',','.')}}" ></td>
+    <td class="st-billete"><span id="span-columna_bv">{{number_format($plantilla->bv,0,',','.')}}</span><input id="columna_bv" type="hidden" name="columna_bv" value="{{number_format($plantilla->bv,0,',','.')}}"></td>
+    <td class="st-billete"><span id="span-columna_bx">{{number_format($plantilla->bx,0,',','.')}}</span><input id="columna_bx" type="hidden" name="columna_bx" value="{{number_format($plantilla->bx,0,',','.')}}"></td>
+    <td class="st-billete"><span id="span-columna_b2x">{{number_format($plantilla->b2x,0,',','.')}}</span><input id="columna_b2x" type="hidden" name="columna_b2x" value="{{number_format($plantilla->b2x,0,',','.')}}"></td>
+    <td class="st-billete"><span id="span-columna_bl">{{number_format($plantilla->bl,0,',','.')}}</span><input id="columna_bl" type="hidden" name="columna_bl" value="{{number_format($plantilla->bl,0,',','.')}}"></td>
+    <td class="st-billete"><span id="span-columna_bc">{{number_format($plantilla->bc,0,',','.')}}</span><input id="columna_bc" type="hidden" name="columna_bc" value="{{number_format($plantilla->bc,0,',','.')}}"></td>
+    <td class="st-billetes"><span id="span-columna_billetesR">{{number_format($plantilla->billetesR,0,',','.')}}</span><input id="columna_billetesR" type="hidden" name="columna_billetesR" value="{{number_format($plantilla->billetesR,0,',','.')}}"></td>
+    <td class="st-Total"><span id="span-columna_totalR">{{number_format($plantilla->total,2,',','.')}}</span><input id="columna_totalR" type="hidden" name="columna_totalR" value="{{number_format($plantilla->total,2,',','.')}}"></td>
+<!-- FOOT: PAGOS -->
+    <td class="st-TotalVarios"><span id="span-columna_pagos">{{number_format($plantilla->pagos,2,',','.')}}</span><input id="columna_pagos" type="hidden" name="columna_pagos" value="{{number_format($plantilla->pagos,2,',','.')}}"></td>
+<!-- FOOT: LECTURA -->
+    <td class="st-totalMonedas"><span id="span-columna_monedasL">{{number_format($plantilla->monedasL,2,',','.')}}</span><input id="columna_monedasL" type="hidden" name="columna_monedasL" value="{{number_format($plantilla->monedasL,2,',','.')}}"></td>
+    <td class="st-billetes"><span id="span-columna_billetesL">{{number_format($plantilla->billetesL,0,',','.')}}</span><input id="columna_billetesL" type="hidden" name="columna_billetesL" value="{{number_format($plantilla->billetesL,0,',','.')}}"></td>
+    <td class="st-Total"><span id="span-columna_totalL">{{number_format($plantilla->totalI,2,',','.')}}</span><input id="columna_totalL" type="hidden" name="columna_totalL" value="{{number_format($plantilla->totalI,2,',','.')}}"></td>
+    <td class="st-Total"><span class="rojo" id="span-columna_diferencia">{{number_format($plantilla->diferencia,2,',','.')}}</span><input id="columna_diferencia" type="hidden" name="columna_diferencia" value="{{number_format($plantilla->diferencia,2,',','.')}}"></td>
+    <td class="st-TotalVarios"><span id="span-columna_acumular">{{number_format($plantilla->acumular,2,',','.')}}</span><input id="columna_acumular" type="hidden" name="columna_acumular" value="{{number_format($plantilla->acumular,2,',','.')}}"></td>
+    <td class="st-Total"><span class="rojo" id="span-columna_descuadre">{{number_format($plantilla->descuadre,2,',','.')}}</span><input id="columna_descuadre" type="hidden" name="columna_descuadre" value="{{number_format($plantilla->descuadre,2,',','.')}}"></td>
+    <!-- <td class="st-my2k"></td> -->
 
   </tr>
-</table></div>
+</table>
+</form>
+</div>
 
         @if ($plantilla->archivado == 0)     
         <div class="checkbox">

@@ -54,6 +54,8 @@ Route::resource('maquinas', 'MaquinaController');
 
 Route::get('/ventas','VentaController@index')->middleware('auth','admin');
 Route::post('/ventas/crearInforme','VentaController@crearInforme')->middleware('auth','admin');;
+Route::get('/descuadres','VentaController@mostrarDescuadres')->middleware('auth','admin');
+
 
 
 
