@@ -3,6 +3,8 @@
 integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
 crossorigin="anonymous">
 </script>
+<script src="{{asset('js/numeral.js')}}"></script>
+<script src="{{asset('js/es-ES.js')}}"></script>
 
 <link href="{{asset('css/diferencias.css')}}" media="all" rel="stylesheet" type="text/css" />
 @section('content')
@@ -41,7 +43,6 @@ crossorigin="anonymous">
         @endif
     </div>
 
-
     <div class="form-group">
         <button type="submit" class="btn btn-default">Filtrar</button>
     </div>
@@ -57,21 +58,28 @@ crossorigin="anonymous">
 @endforeach    
     </colgroup>
     <tr>
-        <th>#</th>
-        <th>Maquina</th>
+        <th class="st-4und">#</th>
+        <th class="st-4und">Maquina</th>
 @foreach ($semanas as $semana)
-        <th>{{$semana}}</th>
+        <th class="st-4und">{{$semana}}</th>
 @endforeach 
     </tr>
     <?php $i = 1;?>
 
 @foreach ($diferencias as $id => $diferencia)
     <tr>         
-
-        <td>{{ $i++ }}</td>
-        <td>{{$diferencia->maquina_id}}</td>
-        <td>{{$diferencia->s_43}}</td>
-        <td>{{$diferencia->s_44}}</td>
+        <td class="st-orden">{{ $i++ }}</td>
+        <td class="st-maquina">{{$diferencia->maquina}}</td>
+        <td class="st-diferencia rojo">{{number_format($diferencia->s1,2,',','.')}}</td>
+        <td class="st-diferencia rojo">{{number_format($diferencia->s2,2,',','.')}}</td>
+        <td class="st-diferencia rojo">{{number_format($diferencia->s3,2,',','.')}}</td>
+        <td class="st-diferencia rojo">{{number_format($diferencia->s4,2,',','.')}}</td>
+        <td class="st-diferencia rojo">{{number_format($diferencia->s5,2,',','.')}}</td>
+        <td class="st-diferencia rojo">{{number_format($diferencia->s6,2,',','.')}}</td>
+        <td class="st-diferencia rojo">{{number_format($diferencia->s7,2,',','.')}}</td>
+        <td class="st-diferencia rojo">{{number_format($diferencia->s8,2,',','.')}}</td>
+        <td class="st-diferencia rojo">{{number_format($diferencia->s9,2,',','.')}}</td>
+        <td class="st-diferencia rojo">{{number_format($diferencia->s10,2,',','.')}}</td>
     
 
     </tr>
@@ -90,7 +98,11 @@ crossorigin="anonymous">
 
 <script>
 $(document).ready(function() {
-
+    $( '.rojo' ).each(function() {
+        var valor = parseFloat(numeral().unformat($(this).text()));
+        if (valor<0) {$(this).attr('style', 'color:red');}
+        else {$(this).attr('style', 'color:rgb(99, 107, 111)');}
+    });
 });    
 
 </script>

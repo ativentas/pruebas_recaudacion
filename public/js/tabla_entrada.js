@@ -1,5 +1,35 @@
 
 $(document).ready(function() {
+  
+$("#pagosdiv").css("display", "none"); 
+
+
+$('span[id^="span-pagos-"]').dblclick(function() {
+    $("#pagosdiv").css("display", "block");
+    pago_id = $(this).parents('tr').data('id');
+        //rellenar los campos con los de la linea correspondiente
+    valor1 = $('#pago1I-'+pago_id+'').val();
+    valor2 = $('#pago2I-'+pago_id+'').val();
+    if(isNaN(valor1)){valor1 = 0;}else{$('#m_pago1I').val(valor1);}
+    if(isNaN(valor2)){valor2 = 0;}else{$('#m_pago2I').val(valor2);}   
+
+
+});
+
+$("#aceptar").click(function() {
+
+    var pago1 = parseFloat($('#m_pago1I').val());
+    var pago2 = parseFloat($('#m_pago2I').val());
+    var sum = pago1 + pago2;
+
+    $('#pagos-'+pago_id+'').val(sum);
+    $('#pago1I-'+pago_id+'').val(pago1);
+    $('#pago2I-'+pago_id+'').val(pago2);
+    $("#pagosdiv").css("display", "none");
+    $('#m_pago1I').val('');    
+    $('#m_pago2I').val('');    
+    $('#span-pagos-'+pago_id+'').text(numeral(sum).format());
+});
 
 
 $( '.rojo' ).each(function() {
@@ -7,8 +37,10 @@ $( '.rojo' ).each(function() {
     if (valor<0) {$(this).attr('style', 'color:red');}
     else {$(this).attr('style', 'color:rgb(99, 107, 111)');}
 });
-    var fila = $(this).parents('tr');
-    var id = fila.data('id');
+var fila = $(this).parents('tr');
+var id = fila.data('id');
+
+$('.pendiente').change();
 
 /*no he conseguido que funcione esto, de momento deshabilito estos botones.
 Mi idea era que el botón sirviese para resaltar la linea*/
@@ -144,16 +176,16 @@ $('.totales').change(function(){
 
 /*Marca una linea (para llevar un control visual 
 de los datos que vamos mentiendo))*/
-$('.btn-marcar').click(function(e){
-    e.preventDefault();
-    var fila = $(this).parents('tr');
-    var id = fila.data('id');
+// $('.btn-marcar').click(function(e){
+//     e.preventDefault();
+//     var fila = $(this).parents('tr');
+//     var id = fila.data('id');
 /*aplicar estilo amarillo a toda la linea*  FALTA HACER*/
-alert('hola');
-    fila.css('style','background-color:yellow');
-    $(this).hide();
-    $(this).next().show(); 
-});
+// alert('hola');
+//     fila.css('style','background-color:yellow');
+//     $(this).hide();
+//     $(this).next().show(); 
+// });
 // var htmlattri="background-color:red;";
 // $('a').css("style",htmlattri);
 
@@ -166,20 +198,30 @@ $('.btn-guardar').click(function(e){
     e.preventDefault();
     var form = $('#form_guardar');
     var url = form.attr('action').replace(':LINEA_ID','Algunas'); 
-    $('.dinero').prop('disabled', false);//para que envie todos los datos
-    $('.billetes').prop('disabled', false);//para que envie todos los datos
-    $('.dineroI').prop('disabled', false);//para que envie todos los datos
     var data = form.serialize();
     $.post(url, data, function(){
     }).done(function(){
         alert('cambios guardados');
-        // $(location).attr("href", '/detalle/{{$plantilla->id}}');RESOLVER!!!! ya no tengo
-        // la $plantilla->id, se ve que al separar el js, ya no tengo acceso, ver la forma de
-        // pasar la variable aquí
-
     });
-    // $(location).attr("href", '/control');
+
 });
+
+$('.btn-completar').click(function(e){
+    e.preventDefault();
+    if ($('#completado').prop('checked') == false) {
+        alert('Tienes que marcar primero para completar la plantilla');
+        return;
+    }
+    $('.btn-guardar').hide();
+    var form = $('#form_guardar');
+    var url = form.attr('action').replace(':LINEA_ID','Todas');  
+    var data = form.serialize();
+    $.post(url, data, function(){
+    }).done(function(){
+        $(location).attr("href", '/control');
+    });
+});
+
 
 
  /**
@@ -247,7 +289,6 @@ function sumar_columna(input_id,formato){
     $('#columna_'+input_id+'').val(numeral(columna).format(formato));
 
 }
-
 
 
 });    

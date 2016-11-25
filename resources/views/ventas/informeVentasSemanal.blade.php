@@ -45,7 +45,7 @@ crossorigin="anonymous">
                     <th> {{ $plantilla->year }} </th>
                     <td> {{ $plantilla->primerdia }} </td>
                     <td> {{ $plantilla->ultimodia }} </td>
-                    <td id="total{{$plantilla->id}}"> {{ number_format($plantilla->total)}} </td>
+                    <td id="total{{$plantilla->id}}"> {{ number_format($plantilla->totalR)}} </td>
                     <td> {{ number_format($plantilla->totalAnterior)}} </td>
             <!-- boton Editar -->
                     <td>
@@ -78,7 +78,7 @@ $(document).ready(function() {
 <script type="text/javascript">
   var semanal = <?php echo $semanal; ?>;
   console.log(semanal);
-  google.charts.load('current', {'packages':['corechart']});
+  google.charts.load('current', {'packages':['corechart','bar']});
   google.charts.setOnLoadCallback(drawChart);
   function drawChart() {
     var data = google.visualization.arrayToDataTable(semanal);
@@ -88,7 +88,7 @@ $(document).ready(function() {
       curveType: 'function',
       legend: { position: 'bottom' }
     };
-    var chart = new google.visualization.LineChart(document.getElementById('grafico'));
+    var chart = new google.visualization.ColumnChart(document.getElementById('grafico'));
     chart.draw(data, options);
       }
 </script>

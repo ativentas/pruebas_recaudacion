@@ -4,8 +4,6 @@
 .st-table th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
 .st-table tr{height:33px;}
 
-/*.marcado {background-color: red;}*/ 
-
 
 /* Este es el color por defecto que viene inherit rgb(99, 107, 111), es como un gris oscuro*/
 /*Lineas*/
@@ -42,7 +40,7 @@
 /*elementos de la tabla*/
 
 table td{ padding: 0px 0; }
-input
+input[type=text]
 {
 width: 100%;
 padding: 0px;
@@ -53,6 +51,26 @@ box-sizing: border-box;
 border-style:none;
 text-align:right;
 }
+
+/*Tabla de pagos*/
+.tg  {border-collapse:collapse;border-spacing:0;margin:0px auto;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg-0ord{text-align:left}
+.tg-0ord{text-align:left}
+
+#pagosdiv{
+   	position: absolute;
+    top: 200px;
+    right: 200px;
+    width: 370px;
+    height: 250px;
+    border: 3px solid #73AD21;
+    background-color: #73AD21;
+    display: none;
+
+}
+ 
 
 
 @media screen and (max-width: 767px) {.st {width: auto !important;}.st col {width: auto !important;}.st-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}</style>

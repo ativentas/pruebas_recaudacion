@@ -42,9 +42,11 @@ class RecaudaController extends Controller
         
         //calcular semana y año a partir de la fecha
 		$fecha = $request->input('fecha');
+		$semana_anterior = Carbon::parse($request->input('fecha'))->subWeek()->weekOfYear;
 		$fecha = strtotime($fecha);
 		$year = date('Y', $fecha);
 		$semana = date ('W', $fecha);
+
 		$semanaactual = date('W');
 		$yearactual = date ('Y');
 		$zona = $request->input('zona');
@@ -58,6 +60,8 @@ class RecaudaController extends Controller
 		// si no existe la plantilla y es la semana actual se crea. Si es una semana futura o pasada, mostrar error
 		
 		if ($plantilla === null) {
+
+			$pendiente = 0;
 
 			if (date('w', $fecha) == 1) {
 			    $primerdiasemana = date('d M', $fecha);} // 1 es Lunes
@@ -78,13 +82,18 @@ class RecaudaController extends Controller
 				$plantilla->save();
 				
 				$maquinas = Maquina::activa()->where('zona', $zona)->get();
-				dd($maquinas);
+				// dd($maquinas);
 				foreach ($maquinas as $maquina) {
-					dd($maquina->id);
+					// dd($maquina->id);
+					$plantilla_anterior = PlantillaZona::where('zona',$zona)->where('semana',$semana_anterior)->where('year',$year)->first()->id;
+
+					// dd($plantilla_anterior);
+					$linea_anterior = Linea::where('maquina_id',$maquina->id)->where('plantillazona_id',$plantilla_anterior)->first();
 					$linea = new Linea;
 					$linea->plantillazona_id = $plantilla->id;
 					$linea->maquina_id = $maquina->id;
 					$linea->maquina_nombre = $maquina->nombre;
+					$linea->pendiente = $linea_anterior->acumular;
 					$linea->usuario = Auth::user()->name;			
 					$linea->save();		
 				}
@@ -119,7 +128,7 @@ class RecaudaController extends Controller
 			return redirect('detalle/'.$plantilla->id);			
 		}
 
-		//como entonces existe, ir a la plantilla seleccionada. Pero si la plantilla es de la semana actual y está abierta, entonces comprobar si hay máquinas nuevas y añadirlas automáticamente.
+		/*como entonces existe, ir a la plantilla seleccionada. Pero si la plantilla es de la semana actual y está abierta, entonces comprobar si hay máquinas nuevas y añadirlas automáticamente y dar de baja las que no estén activas y el totalR sea 0.*/
 
 		if ($semanaactual == $semana && $yearactual == $year && $plantilla->archivado == 0) {
 
@@ -139,7 +148,7 @@ class RecaudaController extends Controller
 					$linea->save();		
 				}
 			}
-			$bajas = Linea::where('plantillazona_id',$plantilla->id)->where('total',0)
+			$bajas = Linea::where('plantillazona_id',$plantilla->id)->where('totalR',0)
 				->whereNotIn('maquina_id', function($q) use($zona) {
 					$q->select('id')->from('maquinas')
 					->where('activa',1)->where('zona',$zona);
@@ -188,6 +197,10 @@ class RecaudaController extends Controller
 		//Diferencias
 		$diferencia = 'diferencia'.$linea->id;
 		$linea->diferencia = $request[$diferencia];
+		$descuadre = 'descuadre'.$linea->id;
+		$linea->descuadre = $request[$descuadre];
+
+		$linea->usuario = Auth::user()->name;					
 		$linea->save();
 	}
 
@@ -230,9 +243,9 @@ class RecaudaController extends Controller
 			if ($plantillaAnterior === null) {
 		    	$plantilla->totalAnterior = 0;
 			}else {
-				$plantilla->totalAnterior = $plantillaAnterior->total;
+				$plantilla->totalAnterior = $plantillaAnterior->totalR;
 			} 
-			guarda_totales($request, $plantilla);	
+			$this->guarda_totales($request, $plantilla);	
 			$plantilla->archivado = '1';
 			$plantilla->save();
 

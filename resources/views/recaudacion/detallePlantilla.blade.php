@@ -14,12 +14,21 @@ crossorigin="anonymous">
 <div class="row">
 <div class="col-md-12">
 <div class="panel panel-default">
-
-    <div class="panel-heading"><h2>Semana {{$plantilla['semana']}}. {{$plantilla['primerdia']}} al {{$plantilla['ultimodia']}}  - {{$plantilla['zona']}} -</h2>
+    <div class="panel-heading">
+    <div class="row">
+    <div class="col-md-4"><span style="background-color: #800000; color: #ffffff; display: inline-block; margin:0px 5px 7px 5px ;padding: 3px 10px; font-weight: bold; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">Semana {{$plantilla['semana']}} ({{$plantilla['primerdia']}} al {{$plantilla['ultimodia']}})</span></div><div style="margin:-2px 0px 0px 0px; color:#800000;font-weight:bold;font-size:22px;" class="col-md-offset-2 col-md-2">- {{$plantilla['zona']}} -</div>
+    </div>
        @include('layouts.alerts')            
         <div class="row">
                 <ol class="breadcrumb">
                     <li><a href="{{ url('control') }}">Volver a Listado</a></li>
+                    <li><a href="#">Lunes</a></li>
+                    <li><a href="#">Martes</a></li>
+                    <li><a href="#">Mierc.</a></li>
+                    <li><a href="#">Jueves</a></li>
+                    <li><a href="#">Viernes</a></li>
+                    <li><a href="#">Sábado</a></li>
+                    <li><a href="#">Domingo</a></li>
                     <!-- <li><a href="{{ url('seleccionar') }}">Nueva Recaudacion</a></li> -->
                     @if ($plantilla->archivado == '0')
                     <li><button class="btn-success btn-xs btn-guardar" name="guardar">Guardar Cambios</button></li>
@@ -90,7 +99,7 @@ crossorigin="anonymous">
     <td class="st-maquina">{{$linea->maquina_nombre}}</td>
 <!-- pendiente -->
     <td class="st-pendiente"><span class="" id="span-pendiente-{{$linea->id}}">{{number_format($linea->pendiente,2,',','.')}}</span>
-    <input data-signo = 1 class="subtotal_linea" type="hidden" id="pendiente-{{$linea->id}}" name="pendiente{{$linea->id}}"  value="{{number_format($linea->pendiente,2,',','.')}}"></td>
+    <input data-signo = 1 class="subtotal_linea pendiente" type="hidden" id="pendiente-{{$linea->id}}" name="pendiente{{$linea->id}}"  value="{{number_format($linea->pendiente,2,',','.')}}"></td>
 <!-- entrada monedas real --> 
 <!-- También se puede borrar el pattern y entonces sale todo bien, lo único es que no hay límite de tamaño en la pantalla y no podré mostrar los errores (si es que lo voy a hacer) -->
     <td class="st-entrada real">
@@ -109,7 +118,16 @@ crossorigin="anonymous">
     <input data-signo = 1 class="subtotal_linea totales" type="hidden" id="totalR-{{$linea->id}}" name="totalR{{$linea->id}}" value="{{number_format($linea->totalR,2,',','.')}}"></td>
 <!-- pagos -->
     <td class="st-entrada">
-    <input data-signo = 1 class="subtotal_linea decimales entradas_especiales" id="pagos-{{$linea->id}}" name="pagos{{$linea->id}}" type="text" pattern="^[0-9]{1,3}([,][0-9]{1,2})?$" value="{{number_format($linea->pagos,2,',','.')}}"></td>
+    <!-- <input data-signo = 1 class="subtotal_linea decimales entradas_especiales" id="pagos-{{$linea->id}}" name="pagos{{$linea->id}}" type="text" pattern="^[0-9]{1,3}([,][0-9]{1,2})?$" value="{{number_format($linea->pagos,2,',','.')}}"></td> -->
+    <span class="" id="span-pagos-{{$linea->id}}">{{number_format($linea->pagos,2,',','.')}}</span>
+    <input data-signo = 1 class="subtotal_linea decimales entradas_especiales" type="hidden" id="pagos-{{$linea->id}}" name="pagos{{$linea->id}}" value="{{number_format($linea->pagos,2,',','.')}}"></td>
+    <input type="hidden" name="pago1I{{$linea->id}}" id="pago1I-{{$linea->id}}" value="{{$linea->pago1}}">
+    <input type="hidden" name="pago1C{{$linea->id}}" id="pago1C-{{$linea->id}}" value="{{$linea->concepto1}}">
+    <input type="hidden" name="pago1D{{$linea->id}}" id="pago1D-{{$linea->id}}" value="{{$linea->concepto1}}">
+    <input type="hidden" name="pago2I{{$linea->id}}" id="pago2I-{{$linea->id}}" value="{{$linea->pago2}}">
+    <input type="hidden" name="pago2C{{$linea->id}}" id="pago2C-{{$linea->id}}" value="{{$linea->concepto2}}">
+    <input type="hidden" name="pago2D{{$linea->id}}" id="pago2D-{{$linea->id}}" value="{{$linea->concepto2}}">
+
 <!-- lectura -->
     <td class="st-entrada">
     <input class="parcial_linea lectura decimales" id="monedasL-{{$linea->id}}" name="monedasL{{$linea->id}}" type="text" value="{{number_format($linea->monedasL,2,',','.')}}"></td>
@@ -163,13 +181,44 @@ crossorigin="anonymous">
   </tr>
 </table>
 </form>
+
+</div>
+
+<!--Pagos Form -->
+<div id="pagosdiv">
+<h3>Pagos</h3>
+<hr/>   
+<table class="tg" style="undefined;table-layout: fixed; width: 353px">
+<colgroup>
+    <col style="width: 63px">
+    <col style="width: 91px">
+    <col style="width: 201px">
+</colgroup>
+  <tr>
+    <th class="tg-0ord"><span>Importe</span></th>
+    <th class="tg-031e"><span>Concepto</span></th>
+    <th class="tg-031e"><span>Descripcion</span></th>
+  </tr>
+  <tr>
+    <td class="tg-0ord"><input type="text" name="m_pago1I" id="m_pago1I" value=""></td>
+    <td class="tg-031e"><input type="text" name="m_pago1C" id="m_pago1C" value=""></td>
+    <td class="tg-031e"><input type="text" name="m_pago1D" id="m_pago1D" value=""></td>
+  </tr>
+  <tr>
+    <td class="tg-0ord"><input type="text" name="m_pago2I" id="m_pago2I" value=""></td>
+    <td class="tg-031e"><input type="text" name="m_pago2C" id="m_pago2C" value=""></td>
+    <td class="tg-031e"><input type="text" name="m_pago2D" id="m_pago2D" value=""></td>
+  </tr>
+</table>
+
+    <input type="button" id="aceptar" value="Aceptar"/>
 </div>
 
         @if ($plantilla->archivado == 0)     
         <div class="checkbox">
-            <label>
-                <input type="checkbox" name="completado" id="completado" value="1"> Ya están pasadas TODAS las recaudaciones
-            </label>
+
+                <input style="text-align:left;width:auto;margin:6px" type="checkbox" name="completado" id="completado" value="1"><span style="margin-left: 35px">Ya están pasadas TODAS las recaudaciones</span>
+
             <button class="btn-primary btn-xs btn-danger btn-completar" name="completar">Completado!!</button>
         </div>
         @elseif($plantilla->archivado == 1)
