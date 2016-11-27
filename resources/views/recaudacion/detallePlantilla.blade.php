@@ -121,12 +121,12 @@ crossorigin="anonymous">
     <!-- <input data-signo = 1 class="subtotal_linea decimales entradas_especiales" id="pagos-{{$linea->id}}" name="pagos{{$linea->id}}" type="text" pattern="^[0-9]{1,3}([,][0-9]{1,2})?$" value="{{number_format($linea->pagos,2,',','.')}}"></td> -->
     <span class="" id="span-pagos-{{$linea->id}}">{{number_format($linea->pagos,2,',','.')}}</span>
     <input data-signo = 1 class="subtotal_linea decimales entradas_especiales" type="hidden" id="pagos-{{$linea->id}}" name="pagos{{$linea->id}}" value="{{number_format($linea->pagos,2,',','.')}}"></td>
-    <input type="hidden" name="pago1I{{$linea->id}}" id="pago1I-{{$linea->id}}" value="{{$linea->pago1}}">
+    <input type="hidden" name="pago1I{{$linea->id}}" id="pago1I-{{$linea->id}}" value="{{number_format($linea->pago1,2,',','.')}}">
     <input type="hidden" name="pago1C{{$linea->id}}" id="pago1C-{{$linea->id}}" value="{{$linea->concepto1}}">
-    <input type="hidden" name="pago1D{{$linea->id}}" id="pago1D-{{$linea->id}}" value="{{$linea->concepto1}}">
-    <input type="hidden" name="pago2I{{$linea->id}}" id="pago2I-{{$linea->id}}" value="{{$linea->pago2}}">
+    <input type="hidden" name="pago1D{{$linea->id}}" id="pago1D-{{$linea->id}}" value="{{$linea->descripcion1}}">
+    <input type="hidden" name="pago2I{{$linea->id}}" id="pago2I-{{$linea->id}}" value="{{number_format($linea->pago2,2,',','.')}}">
     <input type="hidden" name="pago2C{{$linea->id}}" id="pago2C-{{$linea->id}}" value="{{$linea->concepto2}}">
-    <input type="hidden" name="pago2D{{$linea->id}}" id="pago2D-{{$linea->id}}" value="{{$linea->concepto2}}">
+    <input type="hidden" name="pago2D{{$linea->id}}" id="pago2D-{{$linea->id}}" value="{{$linea->descripcion2}}">
 
 <!-- lectura -->
     <td class="st-entrada">
@@ -200,13 +200,27 @@ crossorigin="anonymous">
     <th class="tg-031e"><span>Descripcion</span></th>
   </tr>
   <tr>
-    <td class="tg-0ord"><input type="text" name="m_pago1I" id="m_pago1I" value=""></td>
-    <td class="tg-031e"><input type="text" name="m_pago1C" id="m_pago1C" value=""></td>
+    <td class="tg-0ord"><input class="decimales" type="text" name="m_pago1I" id="m_pago1I" value=""></td>
+    <td class="tg-031e">
+<!--     <select name="m_pago1C" id="m_pago1C">
+      <option value="">Elige...</option>
+      <option value="COMISION">COMISION</option>
+      <option value="PAQUETE">PAQUETE</option>
+    </select> -->
+    <input type="text" name="m_pago1C" id="m_pago1C" value="COMISION">
+    </td>
     <td class="tg-031e"><input type="text" name="m_pago1D" id="m_pago1D" value=""></td>
   </tr>
   <tr>
-    <td class="tg-0ord"><input type="text" name="m_pago2I" id="m_pago2I" value=""></td>
-    <td class="tg-031e"><input type="text" name="m_pago2C" id="m_pago2C" value=""></td>
+    <td class="tg-0ord"><input class="decimales" type="text" name="m_pago2I" id="m_pago2I" value=""></td>
+    <td class="tg-031e">
+<!--     <select name="m_pago2C" id="m_pago2C">
+      <option value="">Elige...</option>
+      <option value="COMISION">COMISION</option>
+      <option value="PAQUETE">PAQUETE</option>
+    </select> -->
+    <input type="text" name="m_pago2C" id="m_pago2C" value="PAQUETES">
+    </td>
     <td class="tg-031e"><input type="text" name="m_pago2D" id="m_pago2D" value=""></td>
   </tr>
 </table>

@@ -180,7 +180,19 @@ class RecaudaController extends Controller
 		$linea->billetesR = $request[$billetesR]; 
 		//Pagos
 		$pagos = 'pagos'.$linea->id;
+		$pago1 = 'pago1I'.$linea->id;
+		$pago2 = 'pago2I'.$linea->id;
+		$concepto1 = 'pago1C'.$linea->id;
+		$concepto2 = 'pago2C'.$linea->id;
+		$descripcion1 = 'pago1D'.$linea->id;
+		$descripcion2 = 'pago2D'.$linea->id;
 		$linea->pagos = $request[$pagos];
+		$linea->pago1 = $request[$pago1];
+		$linea->pago2 = $request[$pago2];
+		$linea->concepto1 = $request[$concepto1];
+		$linea->concepto2 = $request[$concepto2];
+		$linea->descripcion1 = $request[$descripcion1];
+		$linea->descripcion2 = $request[$descripcion2];
 		//Lectura
 		$monedasL = 'monedasL'.$linea->id;
 		$linea->monedasL = $request[$monedasL];

@@ -49,6 +49,7 @@
                         <li><a href="{{ url('/maquinas') }}">Maquinas</a></li>
                         <li><a href="{{ url('/ventas') }}">Informe Ventas</a></li>
                         <li><a href="{{ url('/descuadres') }}">Descuadres Plantillas</a></li>
+                        <li><a href="{{ url('/pagos_comisiones') }}">Pagos Comisiones</a></li>
                         <!-- &nbsp; -->
                         @endif
                     </ul>

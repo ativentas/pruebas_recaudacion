@@ -74,16 +74,16 @@ class VentaController extends Controller
             ->where('plantillazonas.year',2016)
             ->select(
                 'maquinas.nombre AS maquina', 
-                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[0] THEN lineas.diferencia ELSE NULL END) AS 's1'"),                
-                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[1] THEN lineas.diferencia ELSE NULL END) AS 's2'"),
-                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[2] THEN lineas.diferencia ELSE NULL END) AS 's3'"),
-                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[3] THEN lineas.diferencia ELSE NULL END) AS 's4'"),
-                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[4] THEN lineas.diferencia ELSE NULL END) AS 's5'"),                
-                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[5] THEN lineas.diferencia ELSE NULL END) AS 's6'"),               
-                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[6] THEN lineas.diferencia ELSE NULL END) AS 's7'"),                
-                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[7] THEN lineas.diferencia ELSE NULL END) AS 's8'"),                
-                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[8] THEN lineas.diferencia ELSE NULL END) AS 's9'"),
-                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[9] THEN lineas.diferencia ELSE NULL END) AS 's10'")
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[0] THEN lineas.descuadre ELSE NULL END) AS 's1'"),                
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[1] THEN lineas.descuadre ELSE NULL END) AS 's2'"),
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[2] THEN lineas.descuadre ELSE NULL END) AS 's3'"),
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[3] THEN lineas.descuadre ELSE NULL END) AS 's4'"),
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[4] THEN lineas.descuadre ELSE NULL END) AS 's5'"),                
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[5] THEN lineas.descuadre ELSE NULL END) AS 's6'"),               
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[6] THEN lineas.descuadre ELSE NULL END) AS 's7'"),                
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[7] THEN lineas.descuadre ELSE NULL END) AS 's8'"),                
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[8] THEN lineas.descuadre ELSE NULL END) AS 's9'"),
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[9] THEN lineas.descuadre ELSE NULL END) AS 's10'")
                 )
             ->groupBy ('lineas.maquina_id')
             ->get();
@@ -91,5 +91,56 @@ class VentaController extends Controller
 
 
         return view('ventas.descuadres', compact('zonas','estancos','semanas','maquinas','diferencias'));
+    }
+
+    public function mostrarPagos_Comisiones(){
+        $hace7 = Carbon::today()->subDays(7);
+        $semanapasada = $hace7->weekOfYear;
+        $yearsemanapasada = $hace7->year;
+        $s_2 = $semanapasada-1;
+        $s_3 = $semanapasada-2;
+        $s_4 = $semanapasada-3;
+        $s_5 = $semanapasada-4;
+        $s_6 = $semanapasada-5;
+        $s_7 = $semanapasada-6;
+        $s_8 = $semanapasada-7;
+        $s_9 = $semanapasada-8;
+        $s_10 = $semanapasada-9;
+
+        $zonas = Zona::all();
+        $estancos = Estanco::all();
+        $semanas = [$s_10,$s_9,$s_8,$s_7,$s_6,$s_5,$s_4,$s_3,$s_2,$semanapasada];
+
+        $maquinas = Maquina::activa()->get();
+
+            $pagos = DB::table('lineas')
+            ->join('plantillazonas', 'lineas.plantillazona_id', '=', 'plantillazonas.id')
+            ->join('maquinas', 'lineas.maquina_id', '=', 'maquinas.id')
+            ->where('plantillazonas.year',2016)
+            ->where('lineas.pago1','>',0)
+            // ->where(function($query){
+            //     $query->where('lineas.concepto1','COMISION')
+            //     ->orWhere('lineas.concepto2','COMISION');
+            // })
+            ->select(
+                'maquinas.nombre AS maquina', 
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[0] THEN lineas.pago1 ELSE NULL END) AS 's1'"),                              
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[1] THEN lineas.pago1 ELSE NULL END) AS 's2'"),
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[2] THEN lineas.pago1 ELSE NULL END) AS 's3'"),
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[3] THEN lineas.pago1 ELSE NULL END) AS 's4'"),
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[4] THEN lineas.pago1 ELSE NULL END) AS 's5'"),                
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[5] THEN lineas.pago1 ELSE NULL END) AS 's6'"),               
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[6] THEN lineas.pago1 ELSE NULL END) AS 's7'"),                
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[7] THEN lineas.pago1 ELSE NULL END) AS 's8'"),                
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[8] THEN lineas.pago1 ELSE NULL END) AS 's9'"),
+                DB::raw("group_concat(CASE WHEN plantillazonas.semana = $semanas[9] THEN lineas.pago1 ELSE NULL END) AS 's10'")
+                )
+           
+            ->groupBy ('lineas.maquina_id')
+            ->get();
+            // dd($pagos);
+
+
+        return view('ventas.pagos_comisiones', compact('zonas','estancos','semanas','maquinas','pagos'));
     }
 }

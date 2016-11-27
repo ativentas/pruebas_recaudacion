@@ -43,11 +43,6 @@ Route::post('/modificarPlantilla/{id}/{a}', [
 	'as' => 'modificarPlantilla',
 	'middleware' => ['auth']
 	]);
-// Route::post('/totalPlantilla/{id}/{t}', [
-// 	'uses' => 'RecaudaController@guardarTotalPlantilla',
-// 	'as' => 'totalPlantilla',
-// 	'middleware' => ['auth']
-// 	]);
 
 //CRUD
 Route::resource('maquinas', 'MaquinaController');
@@ -55,6 +50,7 @@ Route::resource('maquinas', 'MaquinaController');
 Route::get('/ventas','VentaController@index')->middleware('auth','admin');
 Route::post('/ventas/crearInforme','VentaController@crearInforme')->middleware('auth','admin');;
 Route::get('/descuadres','VentaController@mostrarDescuadres')->middleware('auth','admin');
+Route::get('/pagos_comisiones','VentaController@mostrarPagos_Comisiones')->middleware('auth','admin');
 
 
 

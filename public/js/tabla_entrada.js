@@ -8,27 +8,42 @@ $('span[id^="span-pagos-"]').dblclick(function() {
     $("#pagosdiv").css("display", "block");
     pago_id = $(this).parents('tr').data('id');
         //rellenar los campos con los de la linea correspondiente
-    valor1 = $('#pago1I-'+pago_id+'').val();
-    valor2 = $('#pago2I-'+pago_id+'').val();
-    if(isNaN(valor1)){valor1 = 0;}else{$('#m_pago1I').val(valor1);}
-    if(isNaN(valor2)){valor2 = 0;}else{$('#m_pago2I').val(valor2);}   
+    valor1 = parseFloat(numeral().unformat($('#pago1I-'+pago_id+'').val()));
+    valor2 = parseFloat(numeral().unformat($('#pago2I-'+pago_id+'').val()));
+    if(isNaN(valor1)){$('#m_pago1I').val('0,00');}else{$('#m_pago1I').val(numeral(valor1).format());}
+    if(isNaN(valor2)){$('#m_pago2I').val('0,00');}else{$('#m_pago2I').val(numeral(valor2).format());}
+    // $('#m_pago1C').val($('#pago1C-'+pago_id+'').val());   
+    // $('#m_pago2C').val($('#pago2C-'+pago_id+'').val());   
+    $('#m_pago1D').val($('#pago1D-'+pago_id+'').val());   
+    $('#m_pago2D').val($('#pago2D-'+pago_id+'').val());   
 
 
 });
 
 $("#aceptar").click(function() {
 
-    var pago1 = parseFloat($('#m_pago1I').val());
-    var pago2 = parseFloat($('#m_pago2I').val());
+    var pago1 = parseFloat(numeral().unformat($('#m_pago1I').val()));
+    var pago2 = parseFloat(numeral().unformat($('#m_pago2I').val()));
     var sum = pago1 + pago2;
-
+    pago1 = numeral(pago1).format();
+    pago2 = numeral(pago2).format();
     $('#pagos-'+pago_id+'').val(sum);
     $('#pago1I-'+pago_id+'').val(pago1);
     $('#pago2I-'+pago_id+'').val(pago2);
+    $('#pago1C-'+pago_id+'').val($('#m_pago1C').val());
+    $('#pago2C-'+pago_id+'').val($('#m_pago2C').val());
+    $('#pago1D-'+pago_id+'').val($('#m_pago1D').val());
+    $('#pago2D-'+pago_id+'').val($('#m_pago2D').val());
     $("#pagosdiv").css("display", "none");
     $('#m_pago1I').val('');    
-    $('#m_pago2I').val('');    
+    $('#m_pago2I').val('');
+    // $('#m_pago1C').val('');
+    // $('#m_pago2C').val('');
+    $('#m_pago1D').val('');
+    $('#m_pago2D').val('');
+
     $('#span-pagos-'+pago_id+'').text(numeral(sum).format());
+    $('#pagos-'+pago_id+'').change();
 });
 
 
@@ -86,17 +101,17 @@ numeral.defaultFormat('0,0.00');
 formato_decimales = '0,0.00'
 formato_enteros = '0,0'
 
+
+
+//para que cuando entre un valor en un input, me lo ponga en el formato que quiero
 $('.decimales').change(function() {
     var valor = $(this).val();
     $(this).val(numeral(valor).format());
-
 });
 
-//para que cuando entre un valor en un input, me lo ponga en el formato que quiero
 $('.enteros').change(function() {
     var valor = $(this).val();
     $(this).val(numeral(valor).format(formato_enteros));
-
 });
 
 $('.rojo').change(function() {

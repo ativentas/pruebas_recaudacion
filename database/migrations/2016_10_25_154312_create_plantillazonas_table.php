@@ -15,20 +15,33 @@ class CreatePlantillazonasTable extends Migration
     {
         Schema::create('plantillazonas', function (Blueprint $table) {
             $table->increments('id');
+            $table->date('fecha');
             $table->string('semana');
             $table->string('zona');
             $table->string('year');
-            $table->boolean('extra')->default(0);
-            $table->string('primerdia');
-            $table->string('ultimodia');
-            $table->decimal('total',7,2)->unsigned()->default(0);
-            $table->decimal('totalI',7,2)->unsigned()->default(0);
-            $table->decimal('totalAnterior',7,2)->unsigned()->default(0);
-            $table->decimal('diferencia',7,2)->default(0);
             $table->boolean('archivado')->default(0);
+            $table->decimal('totalAnterior',7,2)->unsigned()->default(0);
+            $table->decimal('monedasR',7,2)->unsigned()->default(0);
+            $table->integer('bv')->unsigned()->default(0);
+            $table->integer('bx')->unsigned()->default(0);
+            $table->integer('b2x')->unsigned()->default(0);
+            $table->integer('bl')->unsigned()->default(0);
+            $table->integer('bc')->unsigned()->default(0);
+            $table->integer('billetesR')->unsigned()->default(0);
+            $table->decimal('totalR',7,2)->unsigned()->default(0);
+            $table->decimal('pagos',6,2)->unsigned()->default(0);
+            $table->decimal('monedasL',7,2)->unsigned()->default(0);
+            $table->integer('billetesL')->unsigned()->default(0);
+            $table->decimal('totalL',7,2)->unsigned()->default(0);
+            $table->decimal('diferencia',7,2)->default(0);
+            $table->decimal('acumular',7,2)->unsigned()->default(0);
+            $table->decimal('descuadre',7,2)->default(0);
+
+            $table->decimal('diferencia',7,2)->default(0);
+
             $table->nullableTimestamps();
 
-            $table->index(['zona', 'semana', 'year', 'extra']);
+            $table->unique(['zona', 'fecha']);
         });
     }
     /**
